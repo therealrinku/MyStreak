@@ -48,7 +48,7 @@ export function RootContextProvider({ children }: PropsWithChildren<{}>) {
   useEffect(() => {
     const loadTodosHandler = (arg: unknown) => {
       const castedArg = arg as unknown as ITodo[] | undefined;
-      setNotes(castedArg ?? []);
+      setTodos(castedArg ?? []);
     };
     const loadCategoriesHandler = (arg: unknown) => {
       const castedArg = arg as unknown as ICategory[] | undefined;

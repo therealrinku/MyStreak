@@ -1,36 +1,26 @@
 import { useEffect, useState } from 'react';
 import './App.css';
 import { RootContextProvider } from './context/RootContext';
-import Loading from './components/Loading';
-import Editor from './pages/Editor';
-import SearchModal from './components/SearchModal';
-import useNotes from './hooks/useNotes';
+import Loading from './components/loading';
+import MyStreakApp from './pages/my-streak-app';
 
 export function App() {
   const [showLoading, setShowLoading] = useState(true);
-  const [showSearchModal, setShowSearchModal] = useState(false);
-  const { handleCreateNewNote, handleCloseNote, openNote, handleDeleteNote } =
-    useNotes();
 
   function keyboardShortcutsHandler(e: KeyboardEvent) {
     if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
-      setShowSearchModal(true);
     }
 
     if ((e.ctrlKey || e.metaKey) && e.key === '=') {
-      handleCreateNewNote();
     }
 
     if ((e.ctrlKey || e.metaKey) && e.key === 'c') {
-      handleCloseNote();
     }
 
     if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
-      if (openNote) handleDeleteNote(openNote.id);
     }
 
     if (e.key === 'Escape') {
-      setShowSearchModal(false);
     }
   }
 
@@ -64,15 +54,7 @@ export function App() {
     return <Loading />;
   }
 
-  return (
-    <>
-      {showSearchModal && (
-        <SearchModal onClose={() => setShowSearchModal(false)} />
-      )}
-
-      <Editor />
-    </>
-  );
+  return <MyStreakApp />;
 }
 
 export function Main() {
