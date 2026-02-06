@@ -3,11 +3,12 @@
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
 
 export type Channels =
-  | 'load-notes'
-  | 'upsert-note'
-  | 'delete-note'
-  | 'open-preferences'
-  | 'toggle-theme'
+  | 'load-todos'
+  | 'load-categories'
+  | 'upsert-todo'
+  | 'upsert-category'
+  | 'delete-todo'
+  | 'delete-category'
   | 'error-happened';
 
 const electronHandler = {

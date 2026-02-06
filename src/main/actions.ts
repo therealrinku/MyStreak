@@ -1,7 +1,7 @@
 import { app } from 'electron';
 import sqlite3 from 'sqlite3';
 
-interface Todo {
+interface ITodo {
   id: number;
   title: string;
   completed: boolean;
@@ -11,7 +11,7 @@ interface Todo {
   category_id: number;
 }
 
-interface Category {
+interface ICategory {
   id: number;
   title: string;
   created_at: string;
@@ -84,15 +84,15 @@ export default class MyStreakActions {
     await this.#addDefaultData();
   }
 
-  getTodos(categoryId?: number): Promise<Todo[]> {
+  getTodos(categoryId?: number): Promise<ITodo[]> {
     if (categoryId) {
-      return this.runQuery<Todo[]>(
+      return this.runQuery<ITodo[]>(
         `SELECT * FROM todos WHERE category_id = ?`,
         [categoryId],
       );
     }
 
-    return this.runQuery<Todo[]>('SELECT * FROM todos');
+    return this.runQuery<ITodo[]>('SELECT * FROM todos');
   }
 
   async upsertTodo({
@@ -100,7 +100,7 @@ export default class MyStreakActions {
     title: string,
     completed: boolean = false,
     category_id: number,
-  } = {}): Promise<Todo> {
+  } = {}): Promise<ITodo> {
     if (id) {
       await this.runUpdate(
         'UPDATE todos SET title = ?, updated_at = ?, completed = ?, category_id = ? WHERE id = ?',
@@ -112,7 +112,7 @@ export default class MyStreakActions {
           category_id,
         ],
       );
-      const data = await this.runQuery<Todo[]>(
+      const data = await this.runQuery<ITodo[]>(
         'SELECT * FROM todos WHERE id = ?',
         [id],
       );
@@ -123,7 +123,7 @@ export default class MyStreakActions {
       'INSERT INTO todos (title, category_id) VALUES(?, ?)',
       [title, category_id],
     );
-    const data = await this.runQuery<Todo[]>(
+    const data = await this.runQuery<ITodo[]>(
       'SELECT * FROM todos WHERE id = ?',
       [res.lastID],
     );
@@ -134,17 +134,17 @@ export default class MyStreakActions {
     return this.runUpdate('DELETE FROM todos WHERE id = ?', [id]);
   }
 
-  getCategories(): Promise<Category[]> {
-    return this.runQuery<Todo[]>('SELECT * FROM categories');
+  getCategories(): Promise<ICategory[]> {
+    return this.runQuery<ITodo[]>('SELECT * FROM categories');
   }
 
-  async upsertCategory({ id: number, title: string } = {}): Promise<Category> {
+  async upsertCategory({ id: number, title: string } = {}): Promise<ICategory> {
     if (id) {
       await this.runUpdate(
         'UPDATE categories SET title = ?, updated_at = ? WHERE id = ?',
         [...queryParams, title, new Date().toISOString()],
       );
-      const data = await this.runQuery<Category[]>(
+      const data = await this.runQuery<ICategory[]>(
         'SELECT * FROM categories WHERE id = ?',
         [id],
       );
@@ -155,7 +155,7 @@ export default class MyStreakActions {
       'INSERT INTO categories(title) VALUES(?)',
       [title],
     );
-    const data = await this.runQuery<Category[]>(
+    const data = await this.runQuery<ICategory[]>(
       'SELECT * FROM categories WHERE id = ?',
       [res.lastID],
     );
