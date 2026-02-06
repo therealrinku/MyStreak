@@ -8,97 +8,75 @@ import React, {
   useState,
 } from 'react';
 
-interface NoteModel {
+interface ITodo {
   id: number;
-  content: string;
+  title: string;
+  completed: boolean;
+  created_at: string;
+  updated_at: string;
+  due_date: string | null;
+  category_id: number;
+}
+
+interface ICategory {
+  id: number;
+  title: string;
   created_at: string;
   updated_at: string;
 }
 
 export interface RootContextType {
-  notes: NoteModel[];
-  setNotes: Dispatch<SetStateAction<NoteModel[]>>;
-  openNote: NoteModel | null;
-  setOpenNote: Dispatch<SetStateAction<NoteModel | null>>;
-  recentNotesId: number[];
-  setRecentNotesId: Dispatch<SetStateAction<number[]>>;
+  todos: ITodo[];
+  setTodos: Dispatch<SetStateAction<ITodo[]>>;
+  categories: ICategory[];
+  setTodos: Dispatch<SetStateAction<ICategory[]>>;
 }
 
 const noop = (() => {}) as unknown as Dispatch<SetStateAction<unknown>>;
 
 export const RootContext = createContext<RootContextType>({
-  notes: [],
-  setNotes: noop as Dispatch<SetStateAction<NoteModel[]>>,
-  openNote: null,
-  setOpenNote: noop as Dispatch<SetStateAction<NoteModel | null>>,
-  recentNotesId: [],
-  setRecentNotesId: noop as Dispatch<SetStateAction<number[]>>,
+  todos: [],
+  setTodos: noop as Dispatch<SetStateAction<ITodo[]>>,
+  categories: [],
+  setCategories: noop as Dispatch<SetStateAction<ICategory[]>>,
 });
 
 export function RootContextProvider({ children }: PropsWithChildren<{}>) {
-  const [notes, setNotes] = useState<NoteModel[]>([]);
-  const [openNote, setOpenNote] = useState<NoteModel | null>(null);
-  const [recentNotesId, setRecentNotesId] = useState<number[]>([]);
+  const [todos, setTodos] = useState<ITodo[]>([]);
+  const [categories, setCategories] = useState<ICategory[]>([]);
 
   useEffect(() => {
-    if (!openNote) return;
-
-    localStorage.setItem('openNoteId', openNote.id.toString());
-
-    setRecentNotesId((prev) => {
-      const filtered = prev.filter((noteId) => noteId !== openNote.id);
-      filtered.unshift(openNote.id);
-
-      const trimmed = filtered.slice(0, 10);
-      localStorage.setItem('recents', JSON.stringify(trimmed));
-      return trimmed;
-    });
-  }, [openNote]);
-
-  useEffect(() => {
-    const lastRecentsJSON = localStorage.getItem('recents');
-    const lastRecents = lastRecentsJSON ? JSON.parse(lastRecentsJSON) : [];
-
-    if (Array.isArray(lastRecents)) {
-      const numeric = lastRecents
-        .map((v: unknown) => Number(v))
-        .filter((n) => !Number.isNaN(n));
-
-      setRecentNotesId(numeric);
-    }
-
-    const loadNotesHandler = (arg: unknown) => {
-      const castedArg = arg as unknown as NoteModel[] | undefined;
+    const loadTodosHandler = (arg: unknown) => {
+      const castedArg = arg as unknown as ITodo[] | undefined;
       setNotes(castedArg ?? []);
-
-      const openNoteId = localStorage.getItem('openNoteId') ?? '';
-      const lastOpenNote = (castedArg ?? []).find(
-        (note) => note.id.toString() === openNoteId,
-      );
-      if (lastOpenNote) setOpenNote(lastOpenNote);
     };
-
+    const loadCategoriesHandler = (arg: unknown) => {
+      const castedArg = arg as unknown as ICategory[] | undefined;
+      setCategories(castedArg ?? []);
+    };
     const errorHandler = (err: unknown) => {
       const msg = (err && (err as any).message) || String(err);
       // eslint-disable-next-line no-alert
       alert(msg);
     };
 
+    // load data
+    window.electron.ipcRenderer.sendMessage('load-todos');
+    window.electron.ipcRenderer.sendMessage('load-categories');
+    // handle data
     window.electron.ipcRenderer.on('error-happened', errorHandler);
-    window.electron.ipcRenderer.on('load-notes', loadNotesHandler);
-    window.electron.ipcRenderer.sendMessage('load-notes');
+    window.electron.ipcRenderer.on('load-todos', loadTodosHandler);
+    window.electron.ipcRenderer.on('load-categories', loadCategoriesHandler);
   }, []);
 
   const contextValue = useMemo<RootContextType>(
     () => ({
-      notes,
-      setNotes,
-      openNote,
-      setOpenNote,
-      recentNotesId,
-      setRecentNotesId,
+      todos,
+      setTodos,
+      categories,
+      setCategories,
     }),
-    [notes, setNotes, openNote, setOpenNote, recentNotesId, setRecentNotesId],
+    [todos, setTodos, categories, setCategories],
   );
 
   return (
