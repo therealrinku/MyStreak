@@ -1,36 +1,64 @@
 import { ipcMain } from 'electron';
-import RobonoteActions from './actions';
+import MyStreakActions from './actions';
 
-const actions = new RobonoteActions();
+const actions = new MyStreakActions();
 
 export default async function registerIpcHandlers() {
-  ipcMain.on('delete-note', async (event, id) => {
+  ipcMain.on('delete-todo', async (event, id) => {
     try {
       await actions.init();
-      await actions.deleteNote(id);
-      event.reply('delete-note');
+      await actions.deleteTodo(id);
+      event.reply('delete-todo');
     } catch (err: any) {
       event.reply('error-happened', { message: err.message });
     }
   });
 
-  ipcMain.on('upsert-note', async (event, args) => {
-    const [id, description] = args;
-
+  ipcMain.on('upsert-todo', async (event, args = {}) => {
     try {
       await actions.init();
-      const updatedNote = await actions.upsertNote(id, description);
-      event.reply('upsert-note', updatedNote);
+      const updatedTodo = await actions.upsertTodo({ ...args });
+      event.reply('upsert-todo', updatedTodo);
     } catch (err: any) {
       event.reply('error-happened', { message: err.message });
     }
   });
 
-  ipcMain.on('load-notes', async (event) => {
+  ipcMain.on('load-todos', async (event) => {
     try {
       await actions.init();
-      const notes = await actions.getNotes();
-      event.reply('load-notes', notes);
+      const todos = await actions.getTodos();
+      event.reply('load-todos', todos);
+    } catch (err: any) {
+      event.reply('error-happened', { message: err.message });
+    }
+  });
+
+  ipcMain.on('delete-category', async (event, id) => {
+    try {
+      await actions.init();
+      await actions.deleteCategory(id);
+      event.reply('delete-category');
+    } catch (err: any) {
+      event.reply('error-happened', { message: err.message });
+    }
+  });
+
+  ipcMain.on('upsert-category', async (event, args = {}) => {
+    try {
+      await actions.init();
+      const updateCategory = await actions.upsertCategory({ ...args });
+      event.reply('upsert-category', updatedCategory);
+    } catch (err: any) {
+      event.reply('error-happened', { message: err.message });
+    }
+  });
+
+  ipcMain.on('load-categories', async (event) => {
+    try {
+      await actions.init();
+      const categories = await actions.getCategories();
+      event.reply('load-categories', categories);
     } catch (err: any) {
       event.reply('error-happened', { message: err.message });
     }

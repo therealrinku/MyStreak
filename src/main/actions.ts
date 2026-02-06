@@ -1,14 +1,24 @@
 import { app } from 'electron';
 import sqlite3 from 'sqlite3';
 
-interface Note {
+interface Todo {
   id: number;
-  content: string;
+  title: string;
+  completed: boolean;
+  created_at: string;
+  updated_at: string;
+  due_date: string | null;
+  category_id: number;
+}
+
+interface Category {
+  id: number;
+  title: string;
   created_at: string;
   updated_at: string;
 }
 
-export default class RobonoteActions {
+export default class MyStreakActions {
   private db: sqlite3.Database | null = null;
 
   constructor() {
@@ -36,53 +46,123 @@ export default class RobonoteActions {
     });
   }
 
-  async init(): Promise<void> {
-    const dbPath = `${app.getPath('documents')}/robonotes.db`;
-    this.db = new sqlite3.Database(dbPath);
+  async #addDefaultData() {
+    //create default category if none exists
+    const defaultCat = await this.runQuery(`SELECT * FROM categories LIMIT 1`);
+    if (defaultCat[0]) return;
+    await this.runUpdate(`INSERT into categories(title) values('Personal')`);
+  }
 
-    const createTableQuery = `
-      CREATE TABLE IF NOT EXISTS notes (
+  async #createTables() {
+    const createCategoryTableQuery = `
+      CREATE TABLE IF NOT EXISTS categories(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        content TEXT,
+        title TEXT,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
       )`;
+    const createNoteTableQuery = `
+      CREATE TABLE IF NOT EXISTS todos(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        title TEXT,
+        category_id INTEGER DEFAULT NULL,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        due_date DATETIME DEFAULT NULL,
+        completed BOOLEAN DEFAULT FALSE
+      )`;
 
-    await this.runUpdate(createTableQuery);
+    await this.runUpdate(createCategoryTableQuery);
+    await this.runUpdate(createNoteTableQuery);
   }
 
-  getNotes(): Promise<Note[]> {
-    return this.runQuery<Note[]>('SELECT * FROM notes');
+  async init(): Promise<void> {
+    const dbPath = `${app.getPath('documents')}/mystreak.db`;
+    this.db = new sqlite3.Database(dbPath);
+
+    await this.#createTables();
+    await this.#addDefaultData();
   }
 
-  async upsertNote(id: number | null, content: string): Promise<Note> {
-    const currentTimestamp = new Date().toISOString();
-    const queryParams = [content, currentTimestamp];
+  getTodos(categoryId?: number): Promise<Todo[]> {
+    if (categoryId) {
+      return this.runQuery<Todo[]>(
+        `SELECT * FROM todos WHERE category_id = ?`,
+        [categoryId],
+      );
+    }
 
+    return this.runQuery<Todo[]>('SELECT * FROM todos');
+  }
+
+  async upsertTodo({
+    id: number,
+    title: string,
+    completed: boolean = false,
+    category_id: number,
+  } = {}): Promise<Todo> {
     if (id) {
       await this.runUpdate(
-        'UPDATE notes SET content = ?, updated_at = ? WHERE id = ?',
-        [...queryParams, id],
+        'UPDATE todos SET title = ?, updated_at = ?, completed = ?, category_id = ? WHERE id = ?',
+        [
+          ...queryParams,
+          title,
+          new Date().toISOString(),
+          completed,
+          category_id,
+        ],
       );
-      const data = await this.runQuery<Note[]>(
-        'SELECT * FROM notes WHERE id = ?',
+      const data = await this.runQuery<Todo[]>(
+        'SELECT * FROM todos WHERE id = ?',
         [id],
       );
       return data[0];
     }
 
     const res = await this.runUpdate(
-      'INSERT INTO notes (content, updated_at, created_at) VALUES(?, ?, ?)',
-      [...queryParams, currentTimestamp],
+      'INSERT INTO todos (title, category_id) VALUES(?, ?)',
+      [title, category_id],
     );
-    const data = await this.runQuery<Note[]>(
-      'SELECT * FROM notes WHERE id = ?',
+    const data = await this.runQuery<Todo[]>(
+      'SELECT * FROM todos WHERE id = ?',
       [res.lastID],
     );
     return data[0];
   }
 
-  deleteNote(id: number): Promise<sqlite3.RunResult> {
-    return this.runUpdate('DELETE FROM notes WHERE id = ?', [id]);
+  deleteTodo(id: number): Promise<sqlite3.RunResult> {
+    return this.runUpdate('DELETE FROM todos WHERE id = ?', [id]);
+  }
+
+  getCategories(): Promise<Category[]> {
+    return this.runQuery<Todo[]>('SELECT * FROM categories');
+  }
+
+  async upsertCategory({ id: number, title: string } = {}): Promise<Category> {
+    if (id) {
+      await this.runUpdate(
+        'UPDATE categories SET title = ?, updated_at = ? WHERE id = ?',
+        [...queryParams, title, new Date().toISOString()],
+      );
+      const data = await this.runQuery<Category[]>(
+        'SELECT * FROM categories WHERE id = ?',
+        [id],
+      );
+      return data[0];
+    }
+
+    const res = await this.runUpdate(
+      'INSERT INTO categories(title) VALUES(?)',
+      [title],
+    );
+    const data = await this.runQuery<Category[]>(
+      'SELECT * FROM categories WHERE id = ?',
+      [res.lastID],
+    );
+    return data[0];
+  }
+
+  deleteCategory(id: number): Promise<sqlite3.RunResult> {
+    return this.runUpdate('DELETE FROM categories WHERE id = ?', [id]);
   }
 }

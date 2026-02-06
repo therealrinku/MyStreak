@@ -62,6 +62,7 @@ const createWindow = async () => {
     titleBarOverlay: {
       height: 42, // 👈 pushes buttons down
     },
+    title: 'My Custom Window Title',
     show: false,
     width: 900,
     height: 700,

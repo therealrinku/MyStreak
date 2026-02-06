@@ -95,13 +95,13 @@ export default function Editor() {
             <p className="bg-yellow-500 h-full w-2"></p>
           </p>
           <button className="flex items-center gap-2 px-5 h-10 font-bold h-full border-l border-gray-800">
-            <GoChecklist /> Todos
+            <GoChecklist size={16} /> Todos
           </button>
           <button className="flex items-center gap-2 px-5 border-r border-l h-10 border-gray-800">
             <GoLog /> Next Up
           </button>
           <button className="flex items-center gap-2 pl-5">
-            <GoPulse size={18}/> Analytics
+            <GoPulse size={18} /> Analytics
           </button>
         </div>
       </div>
@@ -109,14 +109,12 @@ export default function Editor() {
       <div className="mt-16 w-full max-w-[800px] mx-auto mb-12">
         <div className="md:-[#1f1f1f] bg-opacity-40 flex items-start gap-3 border-b border-gray-600 last:border-none">
           <button className="flex items-center gap-2 justify-between font-bold hover:bg-[#1f1f1f] w-full py-3 px-3">
-            <div className="flex items-center gap-2"><GoPlus size={16} /> Add new todo{' '}</div>
             <div className="flex items-center gap-2">
-              <span className="bg-[#1f1f1f] px-3">
-                ⌘
-              </span>
-              <span className="bg-[#1f1f1f] px-3">
-                n
-              </span>
+              <GoPlus size={16} /> Add new todo{' '}
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="bg-[#1f1f1f] px-3">⌘</span>
+              <span className="bg-[#1f1f1f] px-3">n</span>
             </div>
           </button>
         </div>
