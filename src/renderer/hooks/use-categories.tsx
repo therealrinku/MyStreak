@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { RootContext } from '../context/RootContext';
+import { RootContext } from '../context/root-context';
 
 interface ICategory {
   id: number;

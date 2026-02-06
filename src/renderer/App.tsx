@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import './App.css';
-import { RootContextProvider } from './context/RootContext';
+import { RootContextProvider } from './context/root-context';
 import Loading from './components/loading';
 import MyStreakApp from './pages/my-streak-app';
 

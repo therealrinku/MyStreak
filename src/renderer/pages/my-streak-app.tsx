@@ -7,11 +7,11 @@ import {
   GoChecklist,
   GoClock,
 } from 'react-icons/go';
-import useTodos from '../hooks/useTodos.tsx';
+import useTodos from '../hooks/use-todos.tsx';
 
 export default function MyStreakApp() {
-  const { todos  } = useTodos();
-  console.log(todos, "todos")
+  const { todos } = useTodos();
+  console.log(todos, 'todos');
 
   return (
     <div className="w-full min-h-[100vh] bg-white dark:bg-[#303030] text-sm text-white flex flex-col">
