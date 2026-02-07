@@ -89,7 +89,7 @@ export default class MyStreakActions {
   }
 
   async #addDefaultData() {
-    //create default category if none exists
+    // create default category if none exists
     const defaultCat = await this.runQuery(`SELECT * FROM categories LIMIT 1`);
     let lastCatId = defaultCat[0]?.id;
 
@@ -100,11 +100,15 @@ export default class MyStreakActions {
       lastCatId = last.lastID;
     }
 
-    demoTodos.map(async (todo) => {
-      await this.runUpdate(
-        `INSERT into todos(title, completed, category_id) values('${todo.title}', 'false' , ${lastCatId})`,
-      );
-    });
+    // add demo todos if none exists
+    const todos = await this.runQuery(`SELECT * FROM todos LIMIT 1`);
+    if (todos.length === 0) {
+      demoTodos.map(async (todo) => {
+        await this.runUpdate(
+          `INSERT into todos(title, completed, category_id) values('${todo.title}', 'false' , ${lastCatId})`,
+        );
+      });
+    }
   }
 
   async #createTables() {
