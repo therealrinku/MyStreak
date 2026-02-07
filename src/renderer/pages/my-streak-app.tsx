@@ -11,7 +11,7 @@ export default function MyStreakApp() {
       <Toolbar />
 
       <div className="mt-16 w-full max-w-[800px] mx-auto mb-12">
-        <div className="md:-[#1f1f1f] bg-opacity-40 flex items-start gap-3 border-b border-gray-600 last:border-none">
+        <div className="md:-[#1f1f1f] bg-opacity-40 flex items-start gap-3 border-b border-[#383838] last:border-none">
           <button className="flex items-center gap-2 justify-between font-bold hover:bg-[#1f1f1f] w-full py-3 px-3">
             <div className="flex items-center gap-2">
               <GoPlus size={16} /> Add new todo{' '}
@@ -26,7 +26,7 @@ export default function MyStreakApp() {
           return (
             <div
               key={todo.id}
-              className="md:-[#1f1f1f] bg-opacity-40 py-3 px-3 flex items-start gap-3 border-b border-gray-600 last:border-none"
+              className="md:-[#1f1f1f] bg-opacity-40 py-3 px-3 flex items-start gap-3 border-b border-[#383838] last:border-none"
             >
               <input type="checkbox" className="mt-1" />
 
