@@ -191,7 +191,7 @@ export default class MyStreakActions {
     return this.runQuery<ITodo[]>('SELECT * FROM categories');
   }
 
-  async upsertCategory({ id: number, title: string } = {}): Promise<ICategory> {
+  async upsertCategory({ id, title } = {}): Promise<ICategory> {
     if (id) {
       await this.runUpdate(
         'UPDATE categories SET title = ?, updated_at = ? WHERE id = ?',

@@ -1,16 +1,62 @@
+import { useState } from 'react';
 import {
+  GoTriangleUp,
+  GoCheckCircleFill,
   GoGear,
   GoStack,
   GoCheckCircle,
   GoTriangleDown,
   GoPulse,
   GoLog,
+  GoPlus,
   GoChecklist,
 } from 'react-icons/go';
 import useCategories from '../hooks/use-categories.tsx';
 
+function CategoriesDropdown({ onClose }) {
+  const { categories, handleCreateCategory } = useCategories();
+
+  const [title, setTitle] = useState('');
+
+  return (
+    <div className="fixed top-9 w-52 flex flex-col bg-[#454545]">
+      <div className="flex flex-col items-start px-3 w-full">
+        {categories.map((cat) => {
+          return (
+            <button
+              className="py-2 flex items-center gap-2 text-green-400"
+              key={cat.id}
+            >
+              <GoCheckCircleFill /> {cat.title}
+            </button>
+          );
+        })}
+      </div>
+
+      <div className="flex items-center w-full">
+        <input
+          type="text"
+          className="bg-inherit px-3 py-2 outline-none border-t border-gray-500 w-full"
+          placeholder="Add new category"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+        <button
+          className="absolute right-3 disabled:text-gray-500"
+          disabled={!title.trim()}
+          onClick={() => handleCreateCategory({ title })}
+        >
+          <GoPlus />
+        </button>
+      </div>
+    </div>
+  );
+}
+
 export default function Toolbar() {
   const { categories } = useCategories();
+
+  const [showCategoriesDropdown, setShowCategoriesDropdown] = useState(false);
 
   return (
     <div className="flex items-center justify-between bg-[#1f1f1f] bg-opacity-90 h-7 pl-5 py-5 pr-3 titlebar fixed top-0 left-0 right-0 z-50 text-[13px]">
@@ -18,9 +64,20 @@ export default function Toolbar() {
         <b className="text-red-500">MyStreak</b>
 
         {categories.length > 0 && (
-          <button className="flex items-center gap-2 bg-[#454545] pr-3 pl-4 py-1 ">
-            {categories[0].title} <GoTriangleDown />
-          </button>
+          <div>
+            <button
+              className={`flex items-center justify-between gap-2 bg-[#454545] px-3 py-1 font-bold ${showCategoriesDropdown ? 'w-52' : 'w-auto'}`}
+              onClick={() => setShowCategoriesDropdown((prev) => !prev)}
+            >
+              {categories[0].title}{' '}
+              {showCategoriesDropdown ? <GoTriangleUp /> : <GoTriangleDown />}
+            </button>
+            {showCategoriesDropdown && (
+              <CategoriesDropdown
+                onClose={() => setShowCategoriesDropdown(false)}
+              />
+            )}
+          </div>
         )}
       </div>
 
