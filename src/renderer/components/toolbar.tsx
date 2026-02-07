@@ -45,12 +45,14 @@ function CategoriesDropdown({ onClose }) {
                 </span>
               </button>
 
-              {selectedCategory.id !== cat.id &&  <button
-                onClick={() => handleDeleteCategory(cat.id)}
-                className="text-red-500"
-              >
-                <GoTrash />{' '}
-              </button>}
+              {selectedCategory.id !== cat.id && (
+                <button
+                  onClick={() => handleDeleteCategory(cat.id)}
+                  className="text-red-500"
+                >
+                  <GoTrash />{' '}
+                </button>
+              )}
             </div>
           );
         })}
@@ -80,6 +82,7 @@ export default function Toolbar() {
   const { categories, selectedCategory } = useCategories();
 
   const [showCategoriesDropdown, setShowCategoriesDropdown] = useState(false);
+  const [selectedTab, setSelectedTab] = useState('Todos');
 
   return (
     <div className="flex items-center justify-between bg-[#1f1f1f] bg-opacity-90 h-7 pl-5 py-5 pr-3 titlebar fixed top-0 left-0 right-0 z-50 text-[13px]">
@@ -105,17 +108,33 @@ export default function Toolbar() {
       </div>
 
       <div className="flex items-center bg-[#303030] ">
-        <button className="flex items-center gap-2 font-bold bg-[#454545] px-5 py-1 ">
-          <GoCheckCircle size={18} /> <span>Todos</span>
+        <button
+          className={`flex items-center gap-2 ${selectedTab === 'todos' ? 'font-bold bg-[#454545]' : ''} px-5 py-1`}
+          onClick={() => setSelectedTab('todos')}
+        >
+          <GoCheckCircle size={18} />{' '}
+          {selectedTab === 'todos' && <span>Todos</span>}
         </button>
-        <button className="flex items-center gap-2 px-5">
-          <GoStack size={18} />
+        <button
+          className={`flex items-center gap-2 ${selectedTab === 'backlog' ? 'font-bold bg-[#454545]' : ''} px-5 py-1`}
+          onClick={() => setSelectedTab('backlog')}
+        >
+          <GoStack size={18} />{' '}
+          {selectedTab === 'backlog' && <span>Backlog</span>}
         </button>
-        <button className="flex items-center gap-2 px-5">
-          <GoPulse size={18} />
+        <button
+          className={`flex items-center gap-2 ${selectedTab === 'analytics' ? 'font-bold bg-[#454545]' : ''} px-5 py-1`}
+          onClick={() => setSelectedTab('analytics')}
+        >
+          <GoPulse size={18} />{' '}
+          {selectedTab === 'analytics' && <span>Analytics</span>}
         </button>
-        <button className="flex items-center gap-2 px-5">
-          <GoGear size={18} />
+        <button
+          className={`flex items-center gap-2 ${selectedTab === 'settings' ? 'font-bold bg-[#454545]' : ''} px-5 py-1`}
+          onClick={() => setSelectedTab('settings')}
+        >
+          <GoGear size={18} />{' '}
+          {selectedTab === 'settings' && <span>Settings</span>}
         </button>
       </div>
     </div>
