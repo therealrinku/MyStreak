@@ -215,7 +215,9 @@ export default class MyStreakActions {
     return data[0];
   }
 
-  deleteCategory(id: number): Promise<sqlite3.RunResult> {
-    return this.runUpdate('DELETE FROM categories WHERE id = ?', [id]);
+  async deleteCategory(id: number): Promise<sqlite3.RunResult> {
+    await this.runUpdate('DELETE FROM categories WHERE id = ?', [id]);
+    await this.runUpdate('DELETE FROM todos WHERE category_id = ?', [id]);
+    return;
   }
 }

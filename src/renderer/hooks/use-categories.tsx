@@ -37,7 +37,7 @@ export default function useCategories() {
   }
 
   function handleDeleteCategory(id: number) {
-    const confirmed = confirm(`Are you sure want to delete this category? `);
+    const confirmed = confirm(`⚠️ Careful \n\nAre you sure want to delete this category? \n\nDeleting it will also delete all of it's todos.`);
     if (!confirmed) {
       return;
     }
