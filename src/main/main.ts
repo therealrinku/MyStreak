@@ -60,7 +60,7 @@ const createWindow = async () => {
   mainWindow = new BrowserWindow({
     titleBarStyle: 'hidden',
     titleBarOverlay: {
-      height: 42, // 👈 pushes buttons down
+      height: 40, // 👈 pushes buttons down
     },
     title: 'My Custom Window Title',
     show: false,
