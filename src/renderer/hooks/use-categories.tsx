@@ -9,7 +9,12 @@ interface ICategory {
 }
 
 export default function useCategories() {
-  const { categories, setCategories } = useContext(RootContext);
+  const { categories, selectedCategory, setSelectedCategory, setCategories } =
+    useContext(RootContext);
+
+  function handleSelectCategory(cat: ICategory) {
+    setSelectedCategory(cat);
+  }
 
   function handleCreateCategory({ title }) {
     window.electron.ipcRenderer.sendMessage('upsert-category', { title });
@@ -49,5 +54,7 @@ export default function useCategories() {
     handleCreateCategory,
     handleUpdateCategory,
     handleDeleteCategory,
+    selectedCategory,
+    handleSelectCategory,
   };
 }

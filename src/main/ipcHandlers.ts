@@ -24,10 +24,10 @@ export default async function registerIpcHandlers() {
     }
   });
 
-  ipcMain.on('load-todos', async (event) => {
+  ipcMain.on('load-todos', async (event, cat_id) => {
     try {
       await actions.init();
-      const todos = await actions.getTodos();
+      const todos = await actions.getTodos(cat_id);
       event.reply('load-todos', todos);
     } catch (err: any) {
       event.reply('error-happened', { message: err.message });

@@ -14,20 +14,28 @@ import {
 import useCategories from '../hooks/use-categories.tsx';
 
 function CategoriesDropdown({ onClose }) {
-  const { categories, handleCreateCategory } = useCategories();
+  const {
+    categories,
+    selectedCategory,
+    handleSelectCategory,
+    handleCreateCategory,
+  } = useCategories();
 
   const [title, setTitle] = useState('');
 
   return (
     <div className="fixed top-9 w-52 flex flex-col bg-[#454545]">
-      <div className="flex flex-col items-start px-3 w-full">
+      <div className="flex flex-col items-start w-full">
         {categories.map((cat) => {
           return (
             <button
-              className="py-2 flex items-center gap-2 text-green-400"
+              onClick={() => handleSelectCategory(cat)}
+              className={`py-2 flex items-center gap-2 text-green-400 w-full hover:bg-[#404040] px-3 ${selectedCategory.id === cat.id ? 'text-green-400' : 'text-white'}`}
               key={cat.id}
+              disabled={selectedCategory.id === cat.id}
             >
-              <GoCheckCircleFill /> {cat.title}
+              {selectedCategory.id === cat.id && <GoCheckCircleFill />}{' '}
+              {cat.title}
             </button>
           );
         })}
@@ -54,7 +62,7 @@ function CategoriesDropdown({ onClose }) {
 }
 
 export default function Toolbar() {
-  const { categories } = useCategories();
+  const { categories, selectedCategory } = useCategories();
 
   const [showCategoriesDropdown, setShowCategoriesDropdown] = useState(false);
 
@@ -69,7 +77,7 @@ export default function Toolbar() {
               className={`flex items-center justify-between gap-2 bg-[#454545] px-3 py-1 font-bold ${showCategoriesDropdown ? 'w-52' : 'w-auto'}`}
               onClick={() => setShowCategoriesDropdown((prev) => !prev)}
             >
-              {categories[0].title}{' '}
+              {selectedCategory.title}
               {showCategoriesDropdown ? <GoTriangleUp /> : <GoTriangleDown />}
             </button>
             {showCategoriesDropdown && (

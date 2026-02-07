@@ -93,10 +93,6 @@ button {
   }
 }
 
-.titlebar {
-  -webkit-app-region: drag; /* 👈 allows window dragging */
-}
-
 ::-webkit-scrollbar {
   display: none;
 }
