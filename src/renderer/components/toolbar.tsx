@@ -1,14 +1,18 @@
 import { GoPulse, GoLog, GoChecklist } from 'react-icons/go';
+import useCategories from '../hooks/use-categories.tsx';
 
 export default function Toolbar() {
+  const { categories } = useCategories();
+
   return (
     <div className="flex items-center justify-between bg-[#1f1f1f] bg-opacity-90 h-7 p-5 titlebar fixed top-0 left-0 right-0 z-50">
       <div className="flex items-center gap-2 ml-16">
         <b className="text-red-500">MyStreak</b>
 
         <select className="bg-inherit ml-5 outline-none">
-          <option>Personal</option>
-          <option>Work</option>
+          {categories.map((cat) => {
+            return <option key={cat.id}>{cat.title}</option>;
+          })}
         </select>
       </div>
 
