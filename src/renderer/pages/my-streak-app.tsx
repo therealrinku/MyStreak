@@ -16,9 +16,8 @@ export default function MyStreakApp() {
   return (
     <div className="w-full min-h-[100vh] bg-white dark:bg-[#303030] text-sm text-white flex flex-col">
       <div className="flex items-center justify-between bg-[#1f1f1f] bg-opacity-90 h-7 p-5 titlebar fixed top-0 left-0 right-0 z-50">
-        <div className="flex items-center gap-2 mx-12">
-          <b className="text-green-500 italic">MyStreak</b>
-          <GoFlame className="text-green-500" />
+        <div className="flex items-center gap-2 ml-16">
+          <b className="text-red-500">MyStreak</b>
 
           <select className="bg-inherit ml-5 outline-none">
             <option>Personal</option>
@@ -27,9 +26,6 @@ export default function MyStreakApp() {
         </div>
 
         <div className="flex items-center">
-          <p className="flex items-center gap-2 font-bold text-green-500 h-[10px] w-8 bg-gray-200 mr-5">
-            <p className="bg-yellow-500 h-full w-2"></p>
-          </p>
           <button className="flex items-center gap-2 px-5 h-10 font-bold h-full border-l border-gray-800">
             <GoChecklist size={16} /> Todos
           </button>
