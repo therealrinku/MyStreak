@@ -45,7 +45,7 @@ export default function useCategories() {
     window.electron.ipcRenderer.sendMessage('delete-category', id);
 
     window.electron.ipcRenderer.on('delete-category', () => {
-      setCategories((prev) => prev.filter((note) => todo.id !== id));
+      setCategories((prev) => prev.filter((todo) => todo.id !== id));
     });
   }
 

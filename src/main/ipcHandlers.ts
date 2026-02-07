@@ -47,7 +47,7 @@ export default async function registerIpcHandlers() {
   ipcMain.on('upsert-category', async (event, args = {}) => {
     try {
       await actions.init();
-      const updateCategory = await actions.upsertCategory({ ...args });
+      const updatedCategory = await actions.upsertCategory({ ...args });
       event.reply('upsert-category', updatedCategory);
     } catch (err: any) {
       event.reply('error-happened', { message: err.message });

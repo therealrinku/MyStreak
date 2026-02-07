@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import {
+  GoTrash,
   GoTriangleUp,
   GoCheckCircleFill,
   GoGear,
@@ -19,24 +20,38 @@ function CategoriesDropdown({ onClose }) {
     selectedCategory,
     handleSelectCategory,
     handleCreateCategory,
+    handleDeleteCategory,
   } = useCategories();
 
   const [title, setTitle] = useState('');
 
   return (
-    <div className="fixed top-9 w-52 flex flex-col bg-[#454545]">
+    <div className="fixed top-9 w-60 flex flex-col bg-[#454545]">
       <div className="flex flex-col items-start w-full">
         {categories.map((cat) => {
           return (
-            <button
-              onClick={() => handleSelectCategory(cat)}
-              className={`py-2 flex items-center gap-2 text-green-400 w-full hover:bg-[#404040] px-3 ${selectedCategory.id === cat.id ? 'text-green-400' : 'text-white'}`}
+            <div
+              className="pr-3 w-full flex items-center justify-between hover:bg-[#404040]"
               key={cat.id}
-              disabled={selectedCategory.id === cat.id}
             >
-              {selectedCategory.id === cat.id && <GoCheckCircleFill />}{' '}
-              {cat.title}
-            </button>
+              <button
+                className={`flex w-full items-center py-2 px-3 justify-between hover:bg-[#404040] ${selectedCategory.id === cat.id ? 'text-green-400' : 'text-white'} `}
+                onClick={() => handleSelectCategory(cat)}
+                disabled={selectedCategory.id === cat.id}
+              >
+                <span className="flex items-center gap-2">
+                  {selectedCategory.id === cat.id && <GoCheckCircleFill />}{' '}
+                  {cat.title}
+                </span>
+              </button>
+
+              {selectedCategory.id !== cat.id &&  <button
+                onClick={() => handleDeleteCategory(cat.id)}
+                className="text-red-500"
+              >
+                <GoTrash />{' '}
+              </button>}
+            </div>
           );
         })}
       </div>
@@ -74,7 +89,7 @@ export default function Toolbar() {
         {categories.length > 0 && (
           <div>
             <button
-              className={`flex items-center justify-between gap-2 bg-[#454545] px-3 py-1 font-bold ${showCategoriesDropdown ? 'w-52' : 'w-auto'}`}
+              className={`flex items-center justify-between gap-2 bg-[#454545] px-3 py-1 font-bold ${showCategoriesDropdown ? 'w-60' : 'w-auto'}`}
               onClick={() => setShowCategoriesDropdown((prev) => !prev)}
             >
               {selectedCategory.title}
