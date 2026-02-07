@@ -4,7 +4,7 @@ import useTodos from '../hooks/use-todos.tsx';
 import Toolbar from '../components/toolbar';
 
 export default function MyStreakApp() {
-  const { todos } = useTodos();
+  const { todos, handleUpdateTodo } = useTodos();
 
   return (
     <div className="w-full min-h-[100vh] bg-white dark:bg-[#303030] text-sm text-white flex flex-col">
@@ -28,7 +28,14 @@ export default function MyStreakApp() {
               key={todo.id}
               className="md:-[#1f1f1f] bg-opacity-40 py-3 px-3 flex items-start gap-3 border-b border-[#383838] last:border-none"
             >
-              <input type="checkbox" className="mt-1" />
+              <input
+                type="checkbox"
+                className="mt-1"
+                checked={todo.checked}
+                onChange={() =>
+                  handleUpdateTodo({ ...todo, checked: !todo.checked })
+                }
+              />
 
               <div className="flex flex-col gap-2">
                 <p>{todo.title}</p>

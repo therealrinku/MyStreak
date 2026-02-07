@@ -157,13 +157,7 @@ export default class MyStreakActions {
     if (id) {
       await this.runUpdate(
         'UPDATE todos SET title = ?, updated_at = ?, completed = ?, category_id = ? WHERE id = ?',
-        [
-          ...queryParams,
-          title,
-          new Date().toISOString(),
-          completed || false,
-          categoryId,
-        ],
+        [title, new Date().toISOString(), completed || false, categoryId],
       );
       const data = await this.runQuery<ITodo[]>(
         'SELECT * FROM todos WHERE id = ?',
@@ -195,7 +189,7 @@ export default class MyStreakActions {
     if (id) {
       await this.runUpdate(
         'UPDATE categories SET title = ?, updated_at = ? WHERE id = ?',
-        [...queryParams, title, new Date().toISOString()],
+        [title, new Date().toISOString()],
       );
       const data = await this.runQuery<ICategory[]>(
         'SELECT * FROM categories WHERE id = ?',
