@@ -14,16 +14,17 @@ interface ITodo {
 export default function useTodos() {
   const { selectedCategory, todos, setTodos } = useContext(RootContext);
 
-  const categoryId = selectedCategory?.id;
+  const categoryId = selectedCategory.id;
 
-  function handleCreateTodo({ title }) {
+  function handleCreateTodo({ title, dueDate }) {
     window.electron.ipcRenderer.sendMessage('upsert-todo', {
       title,
+      dueDate,
       categoryId,
     });
 
     window.electron.ipcRenderer.once('upsert-todo', (todoItem) => {
-      setNotes((prev) => [todoItem as ITodo, ...prev]);
+      setTodos((prev) => [todoItem as ITodo, ...prev]);
     });
   }
 
@@ -39,7 +40,7 @@ export default function useTodos() {
       const updatedTodos = [...todos];
       const todoIndex = todos.findIndex((todo) => todo.id === id);
 
-      updatedNotes[todoIndex] = updatedTodoItem as ITodo;
+      updatedTodos[todoIndex] = updatedTodoItem as ITodo;
       setTodos(updatedTodos);
     });
   }

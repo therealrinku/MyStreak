@@ -153,11 +153,23 @@ export default class MyStreakActions {
     return this.runQuery<ITodo[]>('SELECT * FROM todos');
   }
 
-  async upsertTodo({ id, title, categoryId, completed }): Promise<ITodo> {
+  async upsertTodo({
+    id,
+    title,
+    categoryId,
+    completed,
+    dueDate,
+  }): Promise<ITodo> {
     if (id) {
       await this.runUpdate(
-        'UPDATE todos SET title = ?, updated_at = ?, completed = ?, category_id = ? WHERE id = ?',
-        [title, new Date().toISOString(), completed || false, categoryId],
+        'UPDATE todos SET title = ?, updated_at = ?, completed = ?, category_id = ?, due_date = ? WHERE id = ?',
+        [
+          title,
+          new Date().toISOString(),
+          completed || false,
+          categoryId,
+          dueDate,
+        ],
       );
       const data = await this.runQuery<ITodo[]>(
         'SELECT * FROM todos WHERE id = ?',
@@ -167,8 +179,8 @@ export default class MyStreakActions {
     }
 
     const res = await this.runUpdate(
-      'INSERT INTO todos (title, category_id) VALUES(?, ?)',
-      [title, categoryId],
+      'INSERT INTO todos (title, category_id, due_date) VALUES(?, ?, ?)',
+      [title, categoryId, dueDate],
     );
     const data = await this.runQuery<ITodo[]>(
       'SELECT * FROM todos WHERE id = ?',

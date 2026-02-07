@@ -36,7 +36,10 @@ function CategoriesDropdown({ onClose }) {
             >
               <button
                 className={`flex w-full items-center py-2 px-3 justify-between hover:bg-[#404040] ${selectedCategory.id === cat.id ? 'text-green-400' : 'text-white'} `}
-                onClick={() => handleSelectCategory(cat)}
+                onClick={() => {
+                  handleSelectCategory(cat);
+                  onClose();
+                }}
                 disabled={selectedCategory.id === cat.id}
               >
                 <span className="flex items-center gap-2">
@@ -82,7 +85,7 @@ export default function Toolbar() {
   const { categories, selectedCategory } = useCategories();
 
   const [showCategoriesDropdown, setShowCategoriesDropdown] = useState(false);
-  const [selectedTab, setSelectedTab] = useState('Todos');
+  const [selectedTab, setSelectedTab] = useState('todos');
 
   return (
     <div className="flex items-center justify-between bg-[#1f1f1f] bg-opacity-90 h-7 pl-5 py-5 pr-3 titlebar fixed top-0 left-0 right-0 z-50 text-[13px]">

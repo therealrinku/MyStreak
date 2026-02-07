@@ -4,24 +4,51 @@ import useTodos from '../hooks/use-todos.tsx';
 import Toolbar from '../components/toolbar';
 
 export default function MyStreakApp() {
-  const { todos, handleUpdateTodo } = useTodos();
+  const { todos, handleUpdateTodo, handleCreateTodo } = useTodos();
+  const [showAddNewInput, setShowAddNewInput] = useState(false);
+  const [title, setTitle] = useState('');
+  const [date, setDate] = useState(new Date().toString());
+
+  const [isFocused, setIsFocused] = useState(false);
+
+  function handleAdd(e) {
+    e.preventDefault();
+    handleCreateTodo({ title, dueDate: new Date(date).toISOString() });
+    setTitle('');
+  }
 
   return (
     <div className="w-full min-h-[100vh] bg-white dark:bg-[#303030] text-sm text-white flex flex-col">
       <Toolbar />
 
       <div className="mt-16 w-full max-w-[800px] mx-auto mb-12">
-        <div className="md:-[#1f1f1f] bg-opacity-40 flex items-start gap-3 border-b border-[#383838] last:border-none">
-          <button className="flex items-center gap-2 justify-between font-bold hover:bg-[#1f1f1f] w-full py-3 px-3">
-            <div className="flex items-center gap-2">
-              <GoPlus size={16} /> Add new todo{' '}
+        <form
+          className="flex items-center justify-between border-b border-[#383838]"
+          onSubmit={handleAdd}
+        >
+          <input
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            type="text"
+            placeholder="Add new todo...."
+            className="p-3 w-full bg-inherit outline-none"
+          />
+
+          {false && (
+            <div className="flex items-center gap-5">
+              <input
+                type="date"
+                className="p-3 bg-inherit outline-none"
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+              />
+              <button type="submit">
+                <GoPlus size={16} />
+              </button>
             </div>
-            <div className="flex items-center gap-2">
-              <span className="bg-[#1f1f1f] px-3">⌘</span>
-              <span className="bg-[#1f1f1f] px-3">n</span>
-            </div>
-          </button>
-        </div>
+          )}
+        </form>
+
         {todos.map((todo) => {
           return (
             <div
