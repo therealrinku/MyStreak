@@ -4,42 +4,15 @@ import sqlite3 from 'sqlite3';
 const demoTodos = [
   {
     id: 1,
-    title: 'Buy a laptop',
-    due: 'Due today',
+    title: 'Buy a laptop for my friend as a gift',
   },
   {
     id: 2,
-    title: 'Buy a washing machine',
-    due: 'Due tommorow',
+    title: 'Buy a new washing machine to make washing clothes easier',
   },
   {
     id: 3,
-    title: 'Open one oss MR',
-    due: 'Due tommorow',
-  },
-  {
-    id: 4,
-    title:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-    due: null,
-  },
-  {
-    id: 5,
-    title:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-    due: null,
-  },
-  {
-    id: 7,
-    title:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-    due: null,
-  },
-  {
-    id: 8,
-    title:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-    due: null,
+    title: 'Complete the assigment of the last week due',
   },
 ];
 
@@ -90,7 +63,9 @@ export default class MyStreakActions {
 
   async #addDefaultData() {
     // create default category if none exists
-    const defaultCat = await this.runQuery(`SELECT * FROM categories LIMIT 1`);
+    const defaultCat = await this.runQuery<ICategory[]>(
+      `SELECT * FROM categories LIMIT 1`,
+    );
     let lastCatId = defaultCat[0]?.id;
 
     if (!lastCatId) {
@@ -101,7 +76,7 @@ export default class MyStreakActions {
     }
 
     // add demo todos if none exists
-    const todos = await this.runQuery(`SELECT * FROM todos LIMIT 1`);
+    const todos = await this.runQuery<ITodo[]>(`SELECT * FROM todos LIMIT 1`);
     if (todos.length === 0) {
       demoTodos.map(async (todo) => {
         await this.runUpdate(
@@ -159,17 +134,11 @@ export default class MyStreakActions {
     categoryId,
     completed,
     dueDate,
-  }): Promise<ITodo> {
+  }: Partial<ITodo>): Promise<ITodo> {
     if (id) {
       await this.runUpdate(
         'UPDATE todos SET title = ?, updated_at = ?, completed = ?, category_id = ?, due_date = ? WHERE id = ?',
-        [
-          title,
-          new Date().toISOString(),
-          completed ? 1 : 0,
-          categoryId,
-          dueDate,
-        ],
+        [title, new Date().toISOString(), completed, categoryId, dueDate, id],
       );
       const data = await this.runQuery<ITodo[]>(
         'SELECT * FROM todos WHERE id = ?',
@@ -197,7 +166,7 @@ export default class MyStreakActions {
     return this.runQuery<ITodo[]>('SELECT * FROM categories');
   }
 
-  async upsertCategory({ id, title } = {}): Promise<ICategory> {
+  async upsertCategory({ id, title }: Partial<ICategory>): Promise<ICategory> {
     if (id) {
       await this.runUpdate(
         'UPDATE categories SET title = ?, updated_at = ? WHERE id = ?',
@@ -221,9 +190,8 @@ export default class MyStreakActions {
     return data[0];
   }
 
-  async deleteCategory(id: number): Promise<sqlite3.RunResult> {
+  async deleteCategory(id: number): Promise<undefined> {
     await this.runUpdate('DELETE FROM categories WHERE id = ?', [id]);
     await this.runUpdate('DELETE FROM todos WHERE category_id = ?', [id]);
-    return;
   }
 }
