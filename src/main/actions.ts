@@ -105,7 +105,7 @@ export default class MyStreakActions {
     if (todos.length === 0) {
       demoTodos.map(async (todo) => {
         await this.runUpdate(
-          `INSERT into todos(title, completed, category_id) values('${todo.title}', 'false' , ${lastCatId})`,
+          `INSERT into todos(title, completed, category_id) values('${todo.title}', 0, ${lastCatId})`,
         );
       });
     }
@@ -127,7 +127,7 @@ export default class MyStreakActions {
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         due_date DATETIME DEFAULT NULL,
-        completed BOOLEAN DEFAULT FALSE
+        completed BOOLEAN DEFAULT 0
       )`;
 
     await this.runUpdate(createCategoryTableQuery);
@@ -166,7 +166,7 @@ export default class MyStreakActions {
         [
           title,
           new Date().toISOString(),
-          completed || false,
+          completed ? 1 : 0,
           categoryId,
           dueDate,
         ],
@@ -179,8 +179,8 @@ export default class MyStreakActions {
     }
 
     const res = await this.runUpdate(
-      'INSERT INTO todos (title, category_id, due_date) VALUES(?, ?, ?)',
-      [title, categoryId, dueDate],
+      'INSERT INTO todos (title, category_id, due_date, completed) VALUES(?, ?, ?, ?)',
+      [title, categoryId, dueDate, 0],
     );
     const data = await this.runQuery<ITodo[]>(
       'SELECT * FROM todos WHERE id = ?',

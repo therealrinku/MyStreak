@@ -3,6 +3,51 @@ import { GoPlus, GoTrash, GoFlame, GoClock } from 'react-icons/go';
 import useTodos from '../hooks/use-todos.tsx';
 import Toolbar from '../components/toolbar';
 
+function TodoItem({ todo }) {
+  const { handleUpdateTodo, handleDeleteTodo } = useTodos();
+  const [isFocused, setIsFocused] = useState(false);
+
+  return (
+    <div
+      onMouseEnter={() => setIsFocused(true)}
+      onMouseLeave={() => setIsFocused(false)}
+      className="md:-[#1f1f1f] bg-opacity-40 py-3 px-3 relative flex items-center justify-between gap-3 border-b border-[#383838] last:border-none"
+    >
+      <div className="flex  items-start gap-3 w-full">
+        <input
+          type="checkbox"
+          className="mt-1"
+          checked={todo.completed === 1}
+          onChange={() =>
+            handleUpdateTodo({
+              ...todo,
+              completed: todo.completed === 0 ? 1 : 0,
+            })
+          }
+        />
+
+        <div className="flex flex-col gap-2 max-w-[90%]">
+          <p>{todo.title}</p>
+          {todo.due && (
+            <p className="flex items-center gap-2">
+              <GoClock /> {todo.due}
+            </p>
+          )}
+        </div>
+      </div>
+
+      {isFocused && (
+        <button
+          className="absolute right-3 text-red-500"
+          onClick={() => handleDeleteTodo(todo.id)}
+        >
+          <GoTrash />
+        </button>
+      )}
+    </div>
+  );
+}
+
 export default function MyStreakApp() {
   const { todos, handleUpdateTodo, handleCreateTodo, handleDeleteTodo } =
     useTodos();
@@ -53,35 +98,7 @@ export default function MyStreakApp() {
         {todos
           .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at))
           .map((todo) => {
-            return (
-              <div
-                key={todo.id}
-                className="md:-[#1f1f1f] bg-opacity-40 py-3 px-3 flex items-center justify-between gap-3 border-b border-[#383838] last:border-none"
-              >
-                <div className="flex  items-start gap-3">
-                  <input
-                    type="checkbox"
-                    className="mt-1"
-                    checked={todo.checked}
-                    onChange={() =>
-                      handleUpdateTodo({ ...todo, checked: !todo.checked })
-                    }
-                  />
-
-                  <div className="flex flex-col gap-2">
-                    <p>{todo.title}</p>
-                    {todo.due && (
-                      <p className="flex items-center gap-2">
-                        <GoClock /> {todo.due}
-                      </p>
-                    )}
-                  </div>
-                </div>
-                <button onClick={() => handleDeleteTodo(todo.id)}>
-                  <GoTrash />
-                </button>
-              </div>
-            );
+            return <TodoItem key={todo.id} todo={todo} />;
           })}
       </div>
     </div>
