@@ -4,7 +4,8 @@ import useTodos from '../hooks/use-todos.tsx';
 import Toolbar from '../components/toolbar';
 
 export default function MyStreakApp() {
-  const { todos, handleUpdateTodo, handleCreateTodo, handleDeleteTodo } = useTodos();
+  const { todos, handleUpdateTodo, handleCreateTodo, handleDeleteTodo } =
+    useTodos();
   const [showAddNewInput, setShowAddNewInput] = useState(false);
   const [title, setTitle] = useState('');
   const [date, setDate] = useState(new Date().toString());
@@ -49,35 +50,39 @@ export default function MyStreakApp() {
           )}
         </form>
 
-        {todos.map((todo) => {
-          return (
-            <div
-              key={todo.id}
-              className="md:-[#1f1f1f] bg-opacity-40 py-3 px-3 flex items-center justify-between gap-3 border-b border-[#383838] last:border-none"
-            >
-            <div className="flex  items-start gap-3">
-              <input
-                type="checkbox"
-                className="mt-1"
-                checked={todo.checked}
-                onChange={() =>
-                  handleUpdateTodo({ ...todo, checked: !todo.checked })
-                }
-              />
+        {todos
+          .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at))
+          .map((todo) => {
+            return (
+              <div
+                key={todo.id}
+                className="md:-[#1f1f1f] bg-opacity-40 py-3 px-3 flex items-center justify-between gap-3 border-b border-[#383838] last:border-none"
+              >
+                <div className="flex  items-start gap-3">
+                  <input
+                    type="checkbox"
+                    className="mt-1"
+                    checked={todo.checked}
+                    onChange={() =>
+                      handleUpdateTodo({ ...todo, checked: !todo.checked })
+                    }
+                  />
 
-              <div className="flex flex-col gap-2">
-                <p>{todo.title}</p>
-                {todo.due && (
-                  <p className="flex items-center gap-2">
-                    <GoClock /> {todo.due}
-                  </p>
-                )}
+                  <div className="flex flex-col gap-2">
+                    <p>{todo.title}</p>
+                    {todo.due && (
+                      <p className="flex items-center gap-2">
+                        <GoClock /> {todo.due}
+                      </p>
+                    )}
+                  </div>
+                </div>
+                <button onClick={() => handleDeleteTodo(todo.id)}>
+                  <GoTrash />
+                </button>
               </div>
-            </div>
-                <button onClick={() => handleDeleteTodo(todo.id)}><GoTrash/></button>
-            </div>
-          );
-        })}
+            );
+          })}
       </div>
     </div>
   );
