@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
-import { GoPlus, GoFlame, GoClock } from 'react-icons/go';
+import { GoPlus, GoTrash, GoFlame, GoClock } from 'react-icons/go';
 import useTodos from '../hooks/use-todos.tsx';
 import Toolbar from '../components/toolbar';
 
 export default function MyStreakApp() {
-  const { todos, handleUpdateTodo, handleCreateTodo } = useTodos();
+  const { todos, handleUpdateTodo, handleCreateTodo, handleDeleteTodo } = useTodos();
   const [showAddNewInput, setShowAddNewInput] = useState(false);
   const [title, setTitle] = useState('');
   const [date, setDate] = useState(new Date().toString());
@@ -53,8 +53,9 @@ export default function MyStreakApp() {
           return (
             <div
               key={todo.id}
-              className="md:-[#1f1f1f] bg-opacity-40 py-3 px-3 flex items-start gap-3 border-b border-[#383838] last:border-none"
+              className="md:-[#1f1f1f] bg-opacity-40 py-3 px-3 flex items-center justify-between gap-3 border-b border-[#383838] last:border-none"
             >
+            <div className="flex  items-start gap-3">
               <input
                 type="checkbox"
                 className="mt-1"
@@ -72,6 +73,8 @@ export default function MyStreakApp() {
                   </p>
                 )}
               </div>
+            </div>
+                <button onClick={() => handleDeleteTodo(todo.id)}><GoTrash/></button>
             </div>
           );
         })}

@@ -54,7 +54,7 @@ export default function useTodos() {
     window.electron.ipcRenderer.sendMessage('delete-todo', id);
 
     window.electron.ipcRenderer.on('delete-todo', () => {
-      setTodos((prev) => prev.filter((note) => todo.id !== id));
+      setTodos((prev) => prev.filter((todo) => todo.id !== id));
     });
   }
 
