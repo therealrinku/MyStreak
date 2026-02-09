@@ -1,7 +1,55 @@
-import { useEffect, useRef, useState } from 'react';
-import { GoPlus, GoTrash, GoFlame, GoClock } from 'react-icons/go';
-import useTodos from '../hooks/use-todos.tsx';
+import { FormEvent, useState } from 'react';
+import {
+  GoTriangleUp,
+  GoTriangleDown,
+  GoPlus,
+  GoTrash,
+  GoClock,
+} from 'react-icons/go';
+import useTodos from '../hooks/use-todos';
 import Toolbar from '../components/toolbar';
+
+function AddTodoForm() {
+  const { handleCreateTodo } = useTodos();
+
+  const [title, setTitle] = useState('');
+  const [date, setDate] = useState(new Date().toString());
+
+  function handleAdd(e: FormEvent) {
+    e.preventDefault();
+    handleCreateTodo({ title, dueDate: new Date(date).toISOString() });
+    setTitle('');
+  }
+
+  return (
+    <form
+      className="flex items-center justify-between border-b border-[#383838]"
+      onSubmit={handleAdd}
+    >
+      <input
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        type="text"
+        placeholder="Add new todo...."
+        className="p-3 w-full bg-inherit outline-none"
+      />
+
+      {false && (
+        <div className="flex items-center gap-5">
+          <input
+            type="date"
+            className="p-3 bg-inherit outline-none"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+          />
+          <button type="submit">
+            <GoPlus size={16} />
+          </button>
+        </div>
+      )}
+    </form>
+  );
+}
 
 function TodoItem({ todo }) {
   const { handleUpdateTodo, handleDeleteTodo } = useTodos();
@@ -26,13 +74,8 @@ function TodoItem({ todo }) {
           }
         />
 
-        <div className="flex flex-col gap-2 max-w-[90%]">
-          <p>{todo.title}</p>
-          {todo.due && (
-            <p className="flex items-center gap-2">
-              <GoClock /> {todo.due}
-            </p>
-          )}
+        <div className="flex gap-2 max-w-[90%]">
+          <p className="flex items-center gap-2">{todo.title}</p>
         </div>
       </div>
 
@@ -49,54 +92,21 @@ function TodoItem({ todo }) {
 }
 
 export default function MyStreakApp() {
-  const { todos, handleUpdateTodo, handleCreateTodo, handleDeleteTodo } =
-    useTodos();
-  const [showAddNewInput, setShowAddNewInput] = useState(false);
-  const [title, setTitle] = useState('');
-  const [date, setDate] = useState(new Date().toString());
-
-  const [isFocused, setIsFocused] = useState(false);
-
-  function handleAdd(e) {
-    e.preventDefault();
-    handleCreateTodo({ title, dueDate: new Date(date).toISOString() });
-    setTitle('');
-  }
+  const { todos } = useTodos();
 
   return (
     <div className="w-full min-h-[100vh] bg-white dark:bg-[#303030] text-sm text-white flex flex-col">
       <Toolbar />
 
       <div className="mt-16 w-full max-w-[800px] mx-auto mb-12">
-        <form
-          className="flex items-center justify-between border-b border-[#383838]"
-          onSubmit={handleAdd}
-        >
-          <input
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            type="text"
-            placeholder="Add new todo...."
-            className="p-3 w-full bg-inherit outline-none"
-          />
-
-          {false && (
-            <div className="flex items-center gap-5">
-              <input
-                type="date"
-                className="p-3 bg-inherit outline-none"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-              />
-              <button type="submit">
-                <GoPlus size={16} />
-              </button>
-            </div>
-          )}
-        </form>
+        <AddTodoForm />
 
         {todos
-          .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at))
+          .sort(
+            (a, b) =>
+              a.completed - b.completed &&
+              new Date(b.updated_at) - new Date(a.updated_at),
+          )
           .map((todo) => {
             return <TodoItem key={todo.id} todo={todo} />;
           })}
