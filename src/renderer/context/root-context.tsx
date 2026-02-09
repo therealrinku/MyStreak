@@ -11,10 +11,9 @@ import React, {
 interface ITodo {
   id: number;
   title: string;
-  completed: boolean;
+  completed: number;
   created_at: string;
   updated_at: string;
-  due_date: string | null;
   category_id: number;
 }
 

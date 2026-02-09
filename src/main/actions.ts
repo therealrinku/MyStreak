@@ -19,10 +19,10 @@ const demoTodos = [
 interface ITodo {
   id: number;
   title: string;
-  completed: boolean;
+  completed: number;
+  backlog: number;
   created_at: string;
   updated_at: string;
-  due_date: string | null;
   category_id: number;
 }
 
@@ -101,7 +101,7 @@ export default class MyStreakActions {
         category_id INTEGER DEFAULT NULL,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-        due_date DATETIME DEFAULT NULL,
+        backlog BOOLEAN DEFAULT 0,
         completed BOOLEAN DEFAULT 0
       )`;
 
@@ -133,12 +133,12 @@ export default class MyStreakActions {
     title,
     categoryId,
     completed,
-    dueDate,
+    backlog,
   }: Partial<ITodo>): Promise<ITodo> {
     if (id) {
       await this.runUpdate(
-        'UPDATE todos SET title = ?, updated_at = ?, completed = ?, category_id = ?, due_date = ? WHERE id = ?',
-        [title, new Date().toISOString(), completed, categoryId, dueDate, id],
+        'UPDATE todos SET title = ?, updated_at = ?, completed = ?, category_id = ?, backlog = ?  WHERE id = ?',
+        [title, new Date().toISOString(), completed, categoryId, backlog, id],
       );
       const data = await this.runQuery<ITodo[]>(
         'SELECT * FROM todos WHERE id = ?',
@@ -148,8 +148,8 @@ export default class MyStreakActions {
     }
 
     const res = await this.runUpdate(
-      'INSERT INTO todos (title, category_id, due_date, completed) VALUES(?, ?, ?, ?)',
-      [title, categoryId, dueDate, 0],
+      'INSERT INTO todos (title, category_id, completed, backlog) VALUES(?, ?, ?, ?)',
+      [title, categoryId, 0, 0],
     );
     const data = await this.runQuery<ITodo[]>(
       'SELECT * FROM todos WHERE id = ?',

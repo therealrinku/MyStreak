@@ -1,5 +1,6 @@
 import { FormEvent, useState } from 'react';
 import {
+  GoIterations,
   GoTriangleUp,
   GoTriangleDown,
   GoPlus,
@@ -80,12 +81,20 @@ function TodoItem({ todo }) {
       </div>
 
       {isFocused && (
-        <button
-          className="absolute right-3 text-red-500"
-          onClick={() => handleDeleteTodo(todo.id)}
-        >
-          <GoTrash />
-        </button>
+        <div className="flex items-center gap-5">
+          <button
+            className="absolute right-12 text-red-500"
+            onClick={() => handleDeleteTodo(todo.id)}
+          >
+            <GoTrash size={16} />
+          </button>
+          <button
+            className="absolute right-3"
+            onClick={() => handleUpdateTodo({ ...todo, backlog: 1 })}
+          >
+            <GoIterations size={16} />
+          </button>
+        </div>
       )}
     </div>
   );

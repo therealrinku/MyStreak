@@ -28,12 +28,13 @@ export default function useTodos() {
     });
   }
 
-  function handleUpdateTodo({ id, title, completed } = {}) {
+  function handleUpdateTodo({ id, title, completed, backlog } = {}) {
     window.electron.ipcRenderer.sendMessage('upsert-todo', {
       id,
       title,
       categoryId,
       completed,
+      backlog,
     });
 
     window.electron.ipcRenderer.once('upsert-todo', (updatedTodoItem) => {
