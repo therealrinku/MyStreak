@@ -112,11 +112,3 @@ html,
 body {
   overflow: auto;
 }
-
-input[type='checkbox'] {
-  transform: scale(1.5);
-}
-
-input[type='date'] {
-  color-scheme: dark;
-}
