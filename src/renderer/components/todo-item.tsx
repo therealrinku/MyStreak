@@ -1,6 +1,12 @@
 import useTodos from '../hooks/use-todos';
 import { useState } from 'react';
-import { GoArrowBoth, GoTrash } from 'react-icons/go';
+import {
+  GoArrowBoth,
+  GoArrowSwitch,
+  GoChevronUp,
+  GoFoldUp,
+  GoTrash,
+} from 'react-icons/go';
 
 export default function TodoItem({ todo }) {
   const { handleUpdateTodo, handleDeleteTodo } = useTodos();
@@ -33,18 +39,24 @@ export default function TodoItem({ todo }) {
       {isFocused && (
         <div className="flex items-center gap-5">
           <button
-            className="absolute right-12 text-red-500"
-            onClick={() => handleDeleteTodo(todo.id)}
+            className="absolute right-20"
+            onClick={() => handleUpdateTodo({ ...todo })}
           >
-            <GoTrash size={16} />
+            <GoFoldUp size={20} />
           </button>
           <button
-            className="absolute right-3"
+            className="absolute right-12"
             onClick={() =>
               handleUpdateTodo({ ...todo, backlog: todo.backlog === 0 ? 1 : 0 })
             }
           >
-            <GoArrowBoth size={16} />
+            <GoArrowSwitch size={16} />
+          </button>
+          <button
+            className="absolute right-3"
+            onClick={() => handleDeleteTodo(todo.id)}
+          >
+            <GoTrash size={13} />
           </button>
         </div>
       )}
