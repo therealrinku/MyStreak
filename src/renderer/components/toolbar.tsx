@@ -125,11 +125,10 @@ export default function Toolbar({ selectedTab, setSelectedTab }) {
           {selectedTab === 'backlog' && <span>Backlog</span>}
         </button>
         <button
-          className={`flex items-center gap-2 ${selectedTab === 'analytics' ? 'font-bold bg-[#454545]' : ''} px-5 py-1`}
-          onClick={() => setSelectedTab('analytics')}
+          className={`flex items-center gap-2 ${selectedTab === 'stats' ? 'font-bold bg-[#454545]' : ''} px-5 py-1`}
+          onClick={() => setSelectedTab('stats')}
         >
-          <GoPulse size={18} />{' '}
-          {selectedTab === 'analytics' && <span>Analytics</span>}
+          <GoPulse size={18} /> {selectedTab === 'stats' && <span>Stats</span>}
         </button>
         <button
           className={`flex items-center gap-2 ${selectedTab === 'settings' ? 'font-bold bg-[#454545]' : ''} px-5 py-1`}
