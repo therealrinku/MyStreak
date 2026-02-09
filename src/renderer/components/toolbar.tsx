@@ -81,11 +81,10 @@ function CategoriesDropdown({ onClose }) {
   );
 }
 
-export default function Toolbar() {
+export default function Toolbar({ selectedTab, setSelectedTab }) {
   const { categories, selectedCategory } = useCategories();
 
   const [showCategoriesDropdown, setShowCategoriesDropdown] = useState(false);
-  const [selectedTab, setSelectedTab] = useState('todos');
 
   return (
     <div className="flex items-center justify-between bg-[#1f1f1f] bg-opacity-90 h-7 pl-5 py-5 pr-3 titlebar fixed top-0 left-0 right-0 z-50 text-[13px]">

@@ -1,0 +1,53 @@
+import useTodos from '../hooks/use-todos';
+import { useState } from 'react';
+import { GoCode, GoTrash } from 'react-icons/go';
+
+export default function TodoItem({ todo }) {
+  const { handleUpdateTodo, handleDeleteTodo } = useTodos();
+  const [isFocused, setIsFocused] = useState(false);
+
+  return (
+    <div
+      onMouseEnter={() => setIsFocused(true)}
+      onMouseLeave={() => setIsFocused(false)}
+      className="md:-[#1f1f1f] bg-opacity-40 py-3 px-3 relative flex items-center justify-between gap-3 border-b border-[#383838] last:border-none"
+    >
+      <div className="flex  items-start gap-3 w-full">
+        <input
+          type="checkbox"
+          className="mt-1"
+          checked={todo.completed === 1}
+          onChange={() =>
+            handleUpdateTodo({
+              ...todo,
+              completed: todo.completed === 0 ? 1 : 0,
+            })
+          }
+        />
+
+        <div className="flex gap-2 max-w-[90%]">
+          <p className="flex items-center gap-2">{todo.title}</p>
+        </div>
+      </div>
+
+      {isFocused && (
+        <div className="flex items-center gap-5">
+          <button
+            className="absolute right-12 text-red-500"
+            onClick={() => handleDeleteTodo(todo.id)}
+          >
+            <GoTrash size={16} />
+          </button>
+          <button
+            className="absolute right-3"
+            onClick={() =>
+              handleUpdateTodo({ ...todo, backlog: todo.backlog === 0 ? 1 : 0 })
+            }
+          >
+            <GoCode size={16} />
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
