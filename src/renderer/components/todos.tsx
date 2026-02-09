@@ -18,8 +18,8 @@ export default function Todos() {
     <>
       <AddTodoForm />
       {activeTodos.length > 0 ? (
-        activeTodos.map((todo) => {
-          return <TodoItem key={todo.id} todo={todo} />;
+        activeTodos.map((todo, index) => {
+          return <TodoItem key={todo.id} todo={todo} count={index+1}/>;
         })
       ) : (
         <div className="flex items-center gap-2 p-3 text-gray-500">

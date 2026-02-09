@@ -8,7 +8,7 @@ import {
   GoTrash,
 } from 'react-icons/go';
 
-export default function TodoItem({ todo }) {
+export default function TodoItem({ todo, count }) {
   const { handleUpdateTodo, handleDeleteTodo } = useTodos();
   const [isFocused, setIsFocused] = useState(false);
 
@@ -31,9 +31,11 @@ export default function TodoItem({ todo }) {
           }
         />
 
-        <div className="flex gap-2 max-w-[90%]">
+        <div className="flex gap-2 max-w-[90%] relative">
           <p className="flex items-center gap-2">{todo.title}</p>
         </div>
+
+        {count <=5 && <p className={`font-bold text-gray-100 ${isFocused ? 'opacity-80' : 'opacity-5'} absolute left-[-5px]`}>{count}</p>}
       </div>
 
       {isFocused && (
