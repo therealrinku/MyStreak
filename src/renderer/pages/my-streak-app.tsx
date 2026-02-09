@@ -4,6 +4,7 @@ import Toolbar from '../components/toolbar';
 import Todos from '../components/todos';
 import Backlog from '../components/backlog';
 import Stats from '../components/stats';
+import Settings from '../components/settings';
 import { useState } from 'react';
 
 export default function MyStreakApp() {
@@ -17,7 +18,8 @@ export default function MyStreakApp() {
         return <Backlog />;
       case 'stats':
         return <Stats />;
-      // case 'settings': <Settings/>
+      case 'settings':
+        return <Settings />;
     }
   }
 

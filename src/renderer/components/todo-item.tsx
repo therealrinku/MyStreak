@@ -2,10 +2,8 @@ import useTodos from '../hooks/use-todos';
 import { useState } from 'react';
 import {
   GoCheckCircle,
-  GoArrowBoth,
   GoArrowSwitch,
-  GoChevronUp,
-  GoFoldUp,
+  GoMoveToTop,
   GoTrash,
 } from 'react-icons/go';
 
@@ -50,7 +48,7 @@ export default function TodoItem({ todo, count }) {
             className="absolute right-[70px]"
             onClick={() => handleUpdateTodo({ ...todo })}
           >
-            <GoFoldUp size={20} />
+            <GoMoveToTop size={16} />
           </button>
           <button
             className="absolute right-[40px]"
