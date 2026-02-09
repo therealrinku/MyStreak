@@ -149,7 +149,7 @@ export default class MyStreakActions {
 
     const res = await this.runUpdate(
       'INSERT INTO todos (title, category_id, completed, backlog) VALUES(?, ?, ?, ?)',
-      [title, categoryId, 0, 0],
+      [title, categoryId, 0, backlog || 0],
     );
     const data = await this.runQuery<ITodo[]>(
       'SELECT * FROM todos WHERE id = ?',

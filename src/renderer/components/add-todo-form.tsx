@@ -2,7 +2,7 @@ import { useState } from 'react';
 import useTodos from '../hooks/use-todos';
 import { GoIterations, GoPlus } from 'react-icons';
 
-export default function AddTodoForm() {
+export default function AddTodoForm({ isBacklog }) {
   const { handleCreateTodo } = useTodos();
 
   const [title, setTitle] = useState('');
@@ -10,7 +10,7 @@ export default function AddTodoForm() {
 
   function handleAdd(e: FormEvent) {
     e.preventDefault();
-    handleCreateTodo({ title, dueDate: new Date(date).toISOString() });
+    handleCreateTodo({ title, backlog: isBacklog ? 1 : 0 });
     setTitle('');
   }
 
@@ -23,7 +23,7 @@ export default function AddTodoForm() {
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         type="text"
-        placeholder="Add new todo...."
+        placeholder={isBacklog ? 'Add new backlog todo...' : 'Add new todo....'}
         className="p-3 w-full bg-inherit outline-none"
       />
 

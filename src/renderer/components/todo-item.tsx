@@ -1,6 +1,6 @@
 import useTodos from '../hooks/use-todos';
 import { useState } from 'react';
-import { GoCode, GoTrash } from 'react-icons/go';
+import { GoArrowBoth, GoTrash } from 'react-icons/go';
 
 export default function TodoItem({ todo }) {
   const { handleUpdateTodo, handleDeleteTodo } = useTodos();
@@ -10,7 +10,7 @@ export default function TodoItem({ todo }) {
     <div
       onMouseEnter={() => setIsFocused(true)}
       onMouseLeave={() => setIsFocused(false)}
-      className="md:-[#1f1f1f] bg-opacity-40 py-3 px-3 relative flex items-center justify-between gap-3 border-b border-[#383838] last:border-none"
+      className="md:-[#1f1f1f] bg-opacity-40 py-3 px-3 relative flex items-center justify-between gap-3 border-b border-[#383838]"
     >
       <div className="flex  items-start gap-3 w-full">
         <input
@@ -44,7 +44,7 @@ export default function TodoItem({ todo }) {
               handleUpdateTodo({ ...todo, backlog: todo.backlog === 0 ? 1 : 0 })
             }
           >
-            <GoCode size={16} />
+            <GoArrowBoth size={16} />
           </button>
         </div>
       )}

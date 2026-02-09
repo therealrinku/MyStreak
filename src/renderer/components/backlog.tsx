@@ -8,7 +8,7 @@ export default function Backlog() {
 
   return (
     <>
-      <AddTodoForm />
+      <AddTodoForm isBacklog={true} />
       {backlog
         .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at))
         .map((todo) => {

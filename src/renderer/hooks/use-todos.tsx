@@ -16,11 +16,12 @@ export default function useTodos() {
 
   const categoryId = selectedCategory.id;
 
-  function handleCreateTodo({ title, dueDate }) {
+  function handleCreateTodo({ title, dueDate, backlog }) {
     window.electron.ipcRenderer.sendMessage('upsert-todo', {
       title,
       dueDate,
       categoryId,
+      backlog,
     });
 
     window.electron.ipcRenderer.once('upsert-todo', (todoItem) => {
