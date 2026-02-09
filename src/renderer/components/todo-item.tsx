@@ -22,13 +22,11 @@ export default function TodoItem({ todo, count }) {
           <p className="flex items-center gap-2">{todo.title}</p>
         </div>
 
-        {count <= 10 && (
-          <p
-            className={`font-bold text-gray-100 ${isFocused ? 'opacity-80' : 'opacity-5'} absolute left-[-15px]`}
-          >
-            {count}
-          </p>
-        )}
+        <p
+          className={`font-bold text-gray-100 ${isFocused ? 'opacity-80' : 'opacity-5'} absolute left-[-15px]`}
+        >
+          {count}
+        </p>
       </div>
 
       {isFocused && (
