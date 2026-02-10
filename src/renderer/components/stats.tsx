@@ -7,17 +7,20 @@ export default function Stats() {
   const completedToday = todos.filter(
     (todo) =>
       todo.completed === 1 &&
-      todo.updated_at.split(' ')[0] === date.slice(0, date.indexOf('T')),
+      todo.updated_at.slice(0, todo.updated_at.indexOf('T')) ===
+        date.slice(0, date.indexOf('T')),
   );
   const addedToday = todos.filter(
     (todo) =>
       todo.backlog === 0 &&
-      todo.created_at.split(' ')[0] === date.slice(0, date.indexOf('T')),
+      todo.created_at.slice(0, todo.created_at.indexOf('T')) ===
+        date.slice(0, date.indexOf('T')),
   );
   const addedBacklogToday = todos.filter(
     (todo) =>
       todo.backlog === 1 &&
-      todo.created_at.split(' ')[0] === date.slice(0, date.indexOf('T')),
+      todo.created_at.slice(0, todo.created_at.indexOf('T')) ===
+        date.slice(0, date.indexOf('T')),
   );
   const activeTodos = todos.filter((todo) => todo.backlog === 0);
   const backlogTodos = todos.filter((todo) => todo.backlog === 1);
