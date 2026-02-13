@@ -10,6 +10,7 @@ export default function AddTodoForm({ isBacklog }) {
 
   function handleAdd(e: FormEvent) {
     e.preventDefault();
+    if(!title.trim()) return;
     handleCreateTodo({ title, backlog: isBacklog ? 1 : 0 });
     setTitle('');
   }
