@@ -118,7 +118,7 @@ body {
 .switch {
   position: relative;
   display: inline-block;
-  width: 48px;
+  width: 47px;
   height: 20px;
 }
 
@@ -135,7 +135,7 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #ccc;
+  background-color: #454545;
   -webkit-transition: 0.4s;
   transition: 0.4s;
 }
@@ -144,8 +144,8 @@ body {
   position: absolute;
   content: '';
   height: 14px;
-  width: 14px;
-  left: 3px;
+  width: 12px;
+  left: 5px;
   bottom: 3px;
   background-color: white;
   -webkit-transition: 0.4s;

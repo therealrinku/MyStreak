@@ -45,6 +45,8 @@ export function RootContextProvider({ children }: PropsWithChildren<{}>) {
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
 
+  const [settings, setSettings] = useState({});
+
   useEffect(() => {
     localStorage.setItem('selectedCategory', JSON.stringify(selectedCategory));
     const loadTodosHandler = (arg: unknown) => {
@@ -58,6 +60,9 @@ export function RootContextProvider({ children }: PropsWithChildren<{}>) {
 
     window.electron.ipcRenderer.sendMessage('load-todos', selectedCategory.id);
     window.electron.ipcRenderer.on('load-todos', loadTodosHandler);
+
+    // window.electron.ipcRenderer.sendMessage('load-settings', selectedCategory.id);
+    // window.electron.ipcRenderer.on('load-settings', loadSettingsHandler);
   }, [selectedCategory]);
 
   useEffect(() => {
@@ -85,6 +90,17 @@ export function RootContextProvider({ children }: PropsWithChildren<{}>) {
     // handle data
     window.electron.ipcRenderer.on('error-happened', errorHandler);
     window.electron.ipcRenderer.on('load-categories', loadCategoriesHandler);
+
+    // load settings
+    const settings = localStorage.getItem('settings');
+    const parsed = settings && JSON.parse(settings);
+    if (
+      typeof parsed === 'object' &&
+      parsed !== null &&
+      !Array.isArray(parsed)
+    ) {
+      setSettings(parsed);
+    }
   }, []);
 
   const contextValue = useMemo<RootContextType>(
@@ -95,6 +111,8 @@ export function RootContextProvider({ children }: PropsWithChildren<{}>) {
       setCategories,
       selectedCategory,
       setSelectedCategory,
+      settings,
+      setSettings,
     }),
     [todos, setTodos, categories, setCategories],
   );
