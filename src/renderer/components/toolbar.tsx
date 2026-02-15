@@ -9,10 +9,12 @@ import {
   GoTriangleDown,
   GoPulse,
   GoLog,
+  GoCheck,
   GoPlus,
   GoChecklist,
 } from 'react-icons/go';
 import useCategories from '../hooks/use-categories.tsx';
+import useSettings from '../hooks/use-settings';
 
 function CategoriesDropdown({ onClose }) {
   const {
@@ -83,6 +85,7 @@ function CategoriesDropdown({ onClose }) {
 
 export default function Toolbar({ selectedTab, setSelectedTab }) {
   const { categories, selectedCategory } = useCategories();
+  const { settings } = useSettings();
 
   const [showCategoriesDropdown, setShowCategoriesDropdown] = useState(false);
 
@@ -124,6 +127,15 @@ export default function Toolbar({ selectedTab, setSelectedTab }) {
           <GoStack size={18} />{' '}
           {selectedTab === 'backlog' && <span>Backlog</span>}
         </button>
+        {settings.showCompletedTab && (
+          <button
+            className={`flex items-center gap-2 ${selectedTab === 'completed' ? 'font-bold bg-[#454545]' : ''} px-5 py-1`}
+            onClick={() => setSelectedTab('completed')}
+          >
+            <GoCheck size={18} />{' '}
+            {selectedTab === 'completed' && <span>Completed</span>}
+          </button>
+        )}
         <button
           className={`flex items-center gap-2 ${selectedTab === 'stats' ? 'font-bold bg-[#454545]' : ''} px-5 py-1`}
           onClick={() => setSelectedTab('stats')}
