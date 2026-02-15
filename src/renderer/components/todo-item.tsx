@@ -31,17 +31,19 @@ export default function TodoItem({ todo, count }) {
 
       {isFocused && (
         <div className="flex items-center gap-5">
-          <button
-            className="absolute right-[105px] text-green-500"
-            onClick={() =>
-              handleUpdateTodo({
-                ...todo,
-                completed: todo.completed === 0 ? 1 : 0,
-              })
-            }
-          >
-            <GoCheckCircle size={16} />
-          </button>
+          {todo.backlog === 0 && (
+            <button
+              className="absolute right-[105px] text-green-500"
+              onClick={() =>
+                handleUpdateTodo({
+                  ...todo,
+                  completed: todo.completed === 0 ? 1 : 0,
+                })
+              }
+            >
+              <GoCheckCircle size={16} />
+            </button>
+          )}
           <button
             className="absolute right-[70px]"
             onClick={() => handleUpdateTodo({ ...todo })}
