@@ -114,7 +114,7 @@ export function RootContextProvider({ children }: PropsWithChildren<{}>) {
       settings,
       setSettings,
     }),
-    [todos, setTodos, categories, setCategories],
+    [todos, setTodos, categories, setCategories, settings, setSettings],
   );
 
   return (

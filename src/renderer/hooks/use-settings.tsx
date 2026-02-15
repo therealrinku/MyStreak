@@ -12,12 +12,8 @@ export default function useSettings() {
     localStorage.setItem('settings', JSON.stringify(updatedSettings));
   }
 
-  function getSetting(key) {
-    return settings[key];
-  }
-
   return {
     updateSetting,
-    getSetting,
+    settings,
   };
 }
