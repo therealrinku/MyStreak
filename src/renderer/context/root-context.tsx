@@ -11,9 +11,14 @@ import React, {
 interface ITodo {
   id: number;
   title: string;
-  completed: number;
+  // backend sometimes stores boolean or numeric flags for completed
+  completed: number | boolean;
+  // optional backlog flag used across renderer; some DB rows may omit it
+  backlog?: number;
   created_at: string;
   updated_at: string;
+  // optional due date present in some contexts
+  due_date?: string | null;
   category_id: number;
 }
 
@@ -28,16 +33,24 @@ export interface RootContextType {
   todos: ITodo[];
   setTodos: Dispatch<SetStateAction<ITodo[]>>;
   categories: ICategory[];
-  setTodos: Dispatch<SetStateAction<ICategory[]>>;
+  setCategories: Dispatch<SetStateAction<ICategory[]>>;
+  selectedCategory: ICategory | null;
+  setSelectedCategory: Dispatch<SetStateAction<ICategory | null>>;
+  settings: Record<string, unknown>;
+  setSettings: Dispatch<SetStateAction<Record<string, unknown>>>;
 }
 
-const noop = (() => {}) as unknown as Dispatch<SetStateAction<unknown>>;
+const noop = (() => {}) as unknown as Dispatch<SetStateAction<any>>;
 
 export const RootContext = createContext<RootContextType>({
   todos: [],
   setTodos: noop as Dispatch<SetStateAction<ITodo[]>>,
   categories: [],
   setCategories: noop as Dispatch<SetStateAction<ICategory[]>>,
+  selectedCategory: null,
+  setSelectedCategory: noop as Dispatch<SetStateAction<ICategory | null>>,
+  settings: {},
+  setSettings: noop as Dispatch<SetStateAction<Record<string, unknown>>>,
 });
 
 export function RootContextProvider({ children }: PropsWithChildren<{}>) {

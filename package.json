@@ -1,5 +1,5 @@
 {
-  "description": "not just another note taking app",
+  "description": "not just another todo app",
   "keywords": [
     "electron",
     "boilerplate",
@@ -11,13 +11,13 @@
     "hot",
     "reload"
   ],
-  "homepage": "https://github.com/therealrinku/robonotes.git#readme",
+  "homepage": "https://github.com/therealrinku/MyStreak.git#readme",
   "bugs": {
-    "url": "https://github.com/therealrinku/robonotes.git/issues"
+    "url": "https://github.com/therealrinku/MyStreak.git/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/therealrinku/robonotes.git.git"
+    "url": "git+https://github.com/therealrinku/MyStreak.git.git"
   },
   "license": "MIT",
   "author": {
@@ -168,8 +168,8 @@
     "webpack-merge": "^5.9.0"
   },
   "build": {
-    "productName": "robonotes",
-    "appId": "org.erb.robonotes",
+    "productName": "MyStreak",
+    "appId": "org.erb.mystreak",
     "asar": true,
     "asarUnpack": "**\\*.{node,dll}",
     "files": [
@@ -229,7 +229,7 @@
     "publish": {
       "provider": "github",
       "owner": "Rinku Chaudhari",
-      "repo": "robonotes"
+      "repo": "MyStreak"
     }
   },
   "collective": {},
