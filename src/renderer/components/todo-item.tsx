@@ -18,8 +18,13 @@ export default function TodoItem({ todo, count }) {
       className="md:-[#1f1f1f] bg-opacity-40 py-3 px-3 relative flex items-center justify-between gap-3 border-b border-[#383838]"
     >
       <div className="flex  items-start gap-3 w-full">
-        <div className="flex gap-2 max-w-[90%] relative">
+        <div className="flex gap-1 max-w-[90%] relative">
           <p className="flex items-center gap-2">{todo.title}</p>
+          {todo.completed === 1 && (
+            <span className="text-gray-500">
+              completed at {new Date(todo.updated_at).toLocaleString()}
+            </span>
+          )}
         </div>
 
         <p
@@ -44,20 +49,27 @@ export default function TodoItem({ todo, count }) {
               <GoCheckCircle size={16} />
             </button>
           )}
-          <button
-            className="absolute right-[70px]"
-            onClick={() => handleUpdateTodo({ ...todo })}
-          >
-            <GoMoveToTop size={16} />
-          </button>
-          <button
-            className="absolute right-[40px]"
-            onClick={() =>
-              handleUpdateTodo({ ...todo, backlog: todo.backlog === 0 ? 1 : 0 })
-            }
-          >
-            <GoArrowSwitch size={16} />
-          </button>
+          {todo.completed === 0 && (
+            <button
+              className="absolute right-[70px]"
+              onClick={() => handleUpdateTodo({ ...todo })}
+            >
+              <GoMoveToTop size={16} />
+            </button>
+          )}
+          {todo.completed === 0 && (
+            <button
+              className="absolute right-[40px]"
+              onClick={() =>
+                handleUpdateTodo({
+                  ...todo,
+                  backlog: todo.backlog === 0 ? 1 : 0,
+                })
+              }
+            >
+              <GoArrowSwitch size={16} />
+            </button>
+          )}
           <button
             className="absolute right-[6px]"
             onClick={() => handleDeleteTodo(todo.id)}
