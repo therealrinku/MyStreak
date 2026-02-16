@@ -18,13 +18,28 @@ export default function TodoItem({ todo, count }) {
       className="md:-[#1f1f1f] bg-opacity-40 py-3 px-3 relative flex items-center justify-between gap-3 border-b border-[#383838]"
     >
       <div className="flex  items-start gap-3 w-full">
-        <div className="flex gap-1 max-w-[90%] relative">
-          <p className="flex items-center gap-2">{todo.title}</p>
-          {todo.completed === 1 && (
-            <span className="text-gray-500">
-              completed at {new Date(todo.updated_at).toLocaleString()}
-            </span>
-          )}
+        <div className="flex items-start gap-2 max-w-[90%] relative">
+          <input
+            type="checkbox"
+            className="mt-1"
+            checked={todo.completed === 1}
+            onChange={() =>
+              handleUpdateTodo({
+                ...todo,
+                completed: todo.completed === 0 ? 1 : 0,
+              })
+            }
+          />
+          <p className="-">
+            {todo.title}{' '}
+            {todo.completed === 1 ? (
+              <span className="text-gray-500">
+                completed at {new Date(todo.updated_at).toLocaleString()}
+              </span>
+            ) : (
+              ''
+            )}
+          </p>
         </div>
 
         <p
@@ -36,19 +51,6 @@ export default function TodoItem({ todo, count }) {
 
       {isFocused && (
         <div className="flex items-center gap-5">
-          {todo.backlog === 0 && (
-            <button
-              className="absolute right-[105px] text-green-500"
-              onClick={() =>
-                handleUpdateTodo({
-                  ...todo,
-                  completed: todo.completed === 0 ? 1 : 0,
-                })
-              }
-            >
-              <GoCheckCircle size={16} />
-            </button>
-          )}
           {todo.completed === 0 && (
             <button
               className="absolute right-[70px]"
