@@ -6,7 +6,7 @@ import { GoCheck } from 'react-icons/go';
 export default function Backlog() {
   const { todos } = useTodos();
   const backlog = todos
-    .filter((todo) => todo.backlog === 1)
+    .filter((todo) => todo.backlog === 1 && todo.completed === 0)
     .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
 
   return (
