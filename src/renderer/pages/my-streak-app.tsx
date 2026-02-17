@@ -27,7 +27,7 @@ export default function MyStreakApp() {
   }
 
   return (
-    <div className="w-full min-h-[100vh] bg-white dark:bg-[#303030] text-sm text-white flex flex-col">
+    <div className="w-full min-h-[100vh] bg-[#303030] text-sm text-white flex flex-col">
       <Toolbar selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
 
       <div className="mt-16 w-full max-w-[800px] mx-auto mb-12">{getTab()}</div>

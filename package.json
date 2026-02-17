@@ -30,7 +30,7 @@
     "build:dll": "cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.renderer.dev.dll.ts",
     "build:main": "cross-env NODE_ENV=production TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.main.prod.ts",
     "build:renderer": "cross-env NODE_ENV=production TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.renderer.prod.ts",
-    "postinstall": "ts-node .erb/scripts/check-native-dep.js && electron-builder install-app-deps && npm run build:dll",
+    "postinstall": "ts-node .erb/scripts/check-native-dep.js && electron-builder install-app-deps && npm run build:dll && electron-rebuild",
     "lint": "cross-env NODE_ENV=development eslint . --ext .js,.jsx,.ts,.tsx",
     "package": "ts-node ./.erb/scripts/clean.js dist && npm run build && electron-builder build --publish never && npm run build:dll",
     "rebuild": "electron-rebuild --parallel --types prod,dev,optional --module-dir release/app",
@@ -95,7 +95,7 @@
     "react-dom": "^18.2.0",
     "react-icons": "^5.0.1",
     "react-router-dom": "^6.16.0",
-    "sqlite3": "^5.1.7"
+    "sqlite3": "5.1.6"
   },
   "devDependencies": {
     "@electron/notarize": "^2.1.0",
