@@ -57,7 +57,8 @@ export default function TodoItem({ todo, count }) {
         <div className="flex items-center gap-5">
           {todo.completed === 0 && (
             <button
-              className="absolute right-[70px]"
+              title="Move to top"
+              className="absolute right-[75px]"
               onClick={() => handleUpdateTodo({ ...todo })}
             >
               <GoMoveToTop size={16} />
@@ -65,6 +66,7 @@ export default function TodoItem({ todo, count }) {
           )}
           {todo.completed === 0 && (
             <button
+              title={todo.backlog === 1 ? 'Move to todos' : 'Move to backlog'}
               className="absolute right-[40px]"
               onClick={() =>
                 handleUpdateTodo({
@@ -77,6 +79,7 @@ export default function TodoItem({ todo, count }) {
             </button>
           )}
           <button
+            title="Delete"
             className="absolute right-[6px]"
             onClick={() => handleDeleteTodo(todo.id)}
           >
