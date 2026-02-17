@@ -34,7 +34,11 @@ export default function TodoItem({ todo, count }) {
             {todo.title}{' '}
             {todo.completed === 1 ? (
               <span className="text-gray-500">
-                completed at {new Date(todo.updated_at).toLocaleString()}
+                completed on{' '}
+                {new Intl.DateTimeFormat('en-GB', {
+                  dateStyle: 'full',
+                  timeStyle: 'short',
+                }).format(new Date(todo.updated_at))}
               </span>
             ) : (
               ''
