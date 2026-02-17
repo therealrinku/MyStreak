@@ -4,31 +4,24 @@ export default function Stats() {
   const { todos } = useTodos();
 
   const date = new Date().toISOString();
-  const completedToday = todos.filter((todo) => {
-    // ensure timestamp exists and is a valid ISO-like string before slicing
-    if (todo.completed !== 1) return false;
-    const ts = todo.updated_at;
-    if (!ts || typeof ts !== 'string') return false;
-    const tIndex = ts.indexOf('T');
-    if (tIndex === -1) return false;
-    return ts.slice(0, tIndex) === date.slice(0, date.indexOf('T'));
-  });
-  const addedToday = todos.filter((todo) => {
-    if (todo.backlog !== 0) return false;
-    const ts = todo.created_at;
-    if (!ts || typeof ts !== 'string') return false;
-    const tIndex = ts.indexOf('T');
-    if (tIndex === -1) return false;
-    return ts.slice(0, tIndex) === date.slice(0, date.indexOf('T'));
-  });
-  const addedBacklogToday = todos.filter((todo) => {
-    if (todo.backlog !== 1) return false;
-    const ts = todo.created_at;
-    if (!ts || typeof ts !== 'string') return false;
-    const tIndex = ts.indexOf('T');
-    if (tIndex === -1) return false;
-    return ts.slice(0, tIndex) === date.slice(0, date.indexOf('T'));
-  });
+  const completedToday = todos.filter(
+    (todo) =>
+      todo.completed === 1 &&
+      todo.updated_at.slice(0, todo.updated_at.indexOf('T')) ===
+        date.slice(0, date.indexOf('T')),
+  );
+  const addedToday = todos.filter(
+    (todo) =>
+      todo.backlog === 0 &&
+      todo.created_at.slice(0, todo.created_at.indexOf('T')) ===
+        date.slice(0, date.indexOf('T')),
+  );
+  const addedBacklogToday = todos.filter(
+    (todo) =>
+      todo.backlog === 1 &&
+      todo.created_at.slice(0, todo.created_at.indexOf('T')) ===
+        date.slice(0, date.indexOf('T')),
+  );
   const activeTodos = todos.filter((todo) => todo.backlog === 0);
   const backlogTodos = todos.filter((todo) => todo.backlog === 1);
 
