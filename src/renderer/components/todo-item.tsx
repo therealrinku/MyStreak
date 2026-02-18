@@ -58,7 +58,7 @@ export default function TodoItem({ todo, count }) {
           {todo.completed === 0 && (
             <button
               title="Move to top"
-              className="absolute right-[75px]"
+              className="absolute right-[78px]"
               onClick={() => handleUpdateTodo({ ...todo })}
             >
               <GoMoveToTop size={16} />
@@ -83,7 +83,7 @@ export default function TodoItem({ todo, count }) {
             className="absolute right-[6px]"
             onClick={() => handleDeleteTodo(todo.id)}
           >
-            <GoTrash size={13} />
+            <GoTrash size={15} />
           </button>
         </div>
       )}
