@@ -1,30 +1,22 @@
-<<<<<<< HEAD
-
-# my-streak
-
-# minimalistic and futuristic todo app
-
 <div align="center">
-    <img src="https://cdn-icons-png.flaticon.com/128/2661/2661383.png" alt="Logo" width="80" height="80">
-    <h3>robonotes</h3>
-    <p>Minimalistic local only, no nonsense note taking application</p>
+    <img src="https://cdn-icons-png.flaticon.com/128/11132/11132575.png" alt="Logo" width="80" height="80">
+    <h3>MyStreak</h3>
+    <p>Minimalistic local only, no nonsense todo application</p>
 </div>
 
 ## Features
 
-✨ Take notes with easy to use and clutter free user interface
+✨ Minimalistic and easy to understand layout and user interface
 
-✨ Powerful search functionality to quickly find what you're looking for
+✨ Designed to be simple but effective
 
-🔥 Local only: all your files are stored locally, you are the owner of your notes
+🔥 Local only, works without internet and your data is saved on your own computer
 
-🔥 Manage and organize your notes with tags with powerful tag search feature
+🔥 Active development, with new powerful features coming
 
 ## Headshots
+<img width="1294" height="803" alt="Screenshot 2026-02-18 at 12 38 31" src="https://github.com/user-attachments/assets/5b44bec9-14c7-47f9-b7df-e5319a5b2d69" />
 
-<img width="1433" height="865" alt="Screenshot 2026-01-13 at 21 35 55" src="https://github.com/user-attachments/assets/4de51a1c-89e2-4140-940f-c76fb26b96b1" />
-
-<img width="1433" height="865" alt="Screenshot 2026-01-13 at 21 38 54" src="https://github.com/user-attachments/assets/1fa4fbd5-fd0b-4e6c-8c59-b6ece6f26db5" />
 
 ## Technologies Used
 
@@ -39,10 +31,10 @@
 
 To run this project locally, follow these steps:
 
-1. Clone the repository.
+1. Create a fork and clone the forked repository. 
 
    ```bash
-   git clone https://github.com/therealrinku/robonotes.git
+   git clone https://github.com/your-username/robonotes.git
 
    ```
 
@@ -53,7 +45,7 @@ To run this project locally, follow these steps:
 
    ```
 
-3. Run the project.
+3. Run the project locally.
    ```bash
    yarn start
    ```
@@ -62,6 +54,4 @@ To run this project locally, follow these steps:
 
 ```bash
 yarn package
-
->>>>>>> 93ecf16 (First ever commit)
 ```
