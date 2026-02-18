@@ -25,16 +25,16 @@
 <img src="https://img.shields.io/badge/tailwindcss-000000?style=for-the-badge&logo=tailwindcss&logoColor=blue"/>
 <img src="https://img.shields.io/badge/typescript-000000?style=for-the-badge&logo=typescript&logoColor=blue"/>
 
-## Contribute to the Project
+## Run the project
 
 ⚠️ First make sure node v20 is installed on your system and it's used during the process below
 
 To run this project locally, follow these steps:
 
-1. Create a fork and clone the forked repository. 
+1. Clone the repository. 
 
    ```bash
-   git clone https://github.com/your-username/robonotes.git
+   git clone https://github.com/therealrinku/MyStreak.git
 
    ```
 
