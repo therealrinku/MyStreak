@@ -4,24 +4,31 @@ export default function Stats() {
   const { todos } = useTodos();
 
   const date = new Date().toISOString();
-  const completedToday = todos.filter(
-    (todo) =>
+
+  const completedToday = todos.filter((todo) => {
+    const updatedAtDate = new Date(todo.updated_at).toISOString();
+    return (
       todo.completed === 1 &&
-      todo.updated_at.slice(0, todo.updated_at.indexOf('T')) ===
-        date.slice(0, date.indexOf('T')),
-  );
-  const addedToday = todos.filter(
-    (todo) =>
+      updatedAtDate.slice(0, updatedAtDate.indexOf('T')) ===
+        date.slice(0, date.indexOf('T'))
+    );
+  });
+  const addedToday = todos.filter((todo) => {
+    const createdAtDate = new Date(todo.created_at).toISOString();
+    return (
       todo.backlog === 0 &&
-      todo.created_at.slice(0, todo.created_at.indexOf('T')) ===
-        date.slice(0, date.indexOf('T')),
-  );
-  const addedBacklogToday = todos.filter(
-    (todo) =>
+      createdAtDate.slice(0, createdAtDate.indexOf('T')) ===
+        date.slice(0, date.indexOf('T'))
+    );
+  });
+  const addedBacklogToday = todos.filter((todo) => {
+    const createdAtDate = new Date(todo.created_at).toISOString();
+    return (
       todo.backlog === 1 &&
-      todo.created_at.slice(0, todo.created_at.indexOf('T')) ===
-        date.slice(0, date.indexOf('T')),
-  );
+      createdAtDate.slice(0, createdAtDate.indexOf('T')) ===
+        date.slice(0, date.indexOf('T'))
+    );
+  });
   const activeTodos = todos.filter((todo) => todo.backlog === 0);
   const backlogTodos = todos.filter((todo) => todo.backlog === 1);
 
