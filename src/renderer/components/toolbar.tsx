@@ -30,37 +30,39 @@ function CategoriesDropdown({ onClose }) {
   return (
     <div className="fixed top-9 w-60 flex flex-col bg-[#454545]">
       <div className="flex flex-col items-start w-full">
-        {categories.map((cat) => {
-          return (
-            <div
-              className="pr-3 w-full flex items-center justify-between hover:bg-[#404040]"
-              key={cat.id}
-            >
-              <button
-                className={`flex w-full items-center py-2 px-3 justify-between hover:bg-[#404040] ${selectedCategory.id === cat.id ? 'text-green-400' : 'text-white'} `}
-                onClick={() => {
-                  handleSelectCategory(cat);
-                  onClose();
-                }}
-                disabled={selectedCategory.id === cat.id}
+        {categories
+          .sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
+          .map((cat) => {
+            return (
+              <div
+                className="pr-3 w-full flex items-center justify-between hover:bg-[#404040]"
+                key={cat.id}
               >
-                <span className="flex items-center gap-2">
-                  {selectedCategory.id === cat.id && <GoCheckCircleFill />}{' '}
-                  {cat.title}
-                </span>
-              </button>
-
-              {selectedCategory.id !== cat.id && (
                 <button
-                  onClick={() => handleDeleteCategory(cat.id)}
-                  className="text-red-500"
+                  className={`flex w-full items-center py-2 px-3 justify-between hover:bg-[#404040] ${selectedCategory.id === cat.id ? 'text-green-400' : 'text-white'} `}
+                  onClick={() => {
+                    handleSelectCategory(cat);
+                    onClose();
+                  }}
+                  disabled={selectedCategory.id === cat.id}
                 >
-                  <GoTrash />{' '}
+                  <span className="flex items-center gap-2">
+                    {selectedCategory.id === cat.id && <GoCheckCircleFill />}{' '}
+                    {cat.title}
+                  </span>
                 </button>
-              )}
-            </div>
-          );
-        })}
+
+                {selectedCategory.id !== cat.id && (
+                  <button
+                    onClick={() => handleDeleteCategory(cat.id)}
+                    className="text-red-500"
+                  >
+                    <GoTrash />{' '}
+                  </button>
+                )}
+              </div>
+            );
+          })}
       </div>
 
       <div className="flex items-center w-full">
@@ -74,7 +76,10 @@ function CategoriesDropdown({ onClose }) {
         <button
           className="absolute right-3 disabled:text-gray-500"
           disabled={!title.trim()}
-          onClick={() => handleCreateCategory({ title })}
+          onClick={() => {
+            handleCreateCategory({ title });
+            setTitle('');
+          }}
         >
           <GoPlus />
         </button>
