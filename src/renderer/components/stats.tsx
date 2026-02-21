@@ -29,7 +29,10 @@ export default function Stats() {
         date.slice(0, date.indexOf('T'))
     );
   });
-  const activeTodos = todos.filter((todo) => todo.backlog === 0);
+  const activeTodos = todos.filter(
+    (todo) => todo.backlog === 0 && todo.completed === 0,
+  );
+  const completedTodos = todos.filter((todo) => todo.completed === 1);
   const backlogTodos = todos.filter((todo) => todo.backlog === 1);
 
   return (
@@ -48,7 +51,11 @@ export default function Stats() {
       </div>
       <div className="md:-[#1f1f1f] bg-opacity-40 py-3 px-3 relative flex items-center gap-3 border-b border-[#383838]">
         <b>{activeTodos.length}</b>
-        <p>total todos</p>
+        <p>total active todos</p>
+      </div>
+      <div className="md:-[#1f1f1f] bg-opacity-40 py-3 px-3 relative flex items-center gap-3 border-b border-[#383838]">
+        <b>{completedTodos.length}</b>
+        <p>total completed todos</p>
       </div>
       <div className="md:-[#1f1f1f] bg-opacity-40 py-3 px-3 relative flex items-center gap-3 border-b border-[#383838]">
         <b>{backlogTodos.length}</b>
