@@ -50,8 +50,18 @@ To run this project locally, follow these steps:
    yarn start
    ```
 
-## Build and create a package
+## Build and create a package for your computer
 
+1. Install the dependencies if you haven't already
+```bash
+yarn install 
+```
+
+2. Create the executeable for your computer (eg: .exe, .deb, .dmg etc)
 ```bash
 yarn package
 ```
+
+3. You can find installable package on `MyStreak/release/build` folder
+  
+5. Click on the file with `.deb, .exe, or .dmg` extension based on your system to install it
