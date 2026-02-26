@@ -1,4 +1,5 @@
 import useTodos from '../hooks/use-todos';
+import useSettings from '../hooks/use-settings';
 import { useState } from 'react';
 import {
   GoCheckCircle,
@@ -9,6 +10,8 @@ import {
 
 export default function TodoItem({ todo, count }) {
   const { handleUpdateTodo, handleDeleteTodo } = useTodos();
+  const { settings } = useSettings();
+
   const [isFocused, setIsFocused] = useState(false);
 
   return (
@@ -31,7 +34,13 @@ export default function TodoItem({ todo, count }) {
             }
           />
           <p className="-">
-            {todo.title}{' '}
+            {settings.confidentialMode ? (
+              <span className="italic text-gray-500">
+                redacted because confidential mode is on
+              </span>
+            ) : (
+              todo.title
+            )}{' '}
             {todo.completed === 1 ? (
               <span className="text-gray-500">
                 completed on{' '}

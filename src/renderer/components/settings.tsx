@@ -16,6 +16,15 @@ export default function Settings() {
           }
         />
       </div>
+      <div className="md:-[#1f1f1f] bg-opacity-40 py-3 px-3 relative flex items-center justify-between gap-3 border-b border-[#383838]">
+        <p>Confidential mode</p>
+        <ToggleSwitch
+          checked={settings.confidentialMode}
+          onChange={() =>
+            updateSetting('confidentialMode', !settings.confidentialMode)
+          }
+        />
+      </div>
     </div>
   );
 }
