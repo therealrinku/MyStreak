@@ -21,7 +21,7 @@ export default function TodoItem({ todo, count }) {
       className="md:-[#1f1f1f] bg-opacity-40 py-3 px-3 relative flex items-center justify-between gap-3 border-b border-[#383838]"
     >
       <div className="flex  items-start gap-3 w-full">
-        <div className="flex items-start gap-2 max-w-[90%] relative">
+        <div className="flex items-start gap-2 max-w-[89%] relative">
           <input
             type="checkbox"
             className="mt-1"
