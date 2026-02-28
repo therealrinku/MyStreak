@@ -37,29 +37,29 @@ export default function Stats() {
 
   return (
     <div>
-      <div className="md:-[#1f1f1f] bg-opacity-40 py-3 px-3 relative flex items-center gap-3 border-b border-[#383838]">
-        <b>{completedToday.length}</b>
+      <div className="md:-[#1f1f1f] bg-opacity-40 py-3 px-3 relative flex items-center justify-between border-b border-[#383838]">
         <p>todos completed today</p>
+        <b>{completedToday.length}</b>
       </div>
-      <div className="md:-[#1f1f1f] bg-opacity-40 py-3 px-3 relative flex items-center gap-3 border-b border-[#383838]">
-        <b>{addedToday.length}</b>
+      <div className="md:-[#1f1f1f] bg-opacity-40 py-3 px-3 relative flex items-center justify-between border-b border-[#383838]">
         <p>todos added today</p>
+        <b>{addedToday.length}</b>
       </div>
-      <div className="md:-[#1f1f1f] bg-opacity-40 py-3 px-3 relative flex items-center gap-3 border-b border-[#383838]">
-        <b>{addedBacklogToday.length}</b>
+      <div className="md:-[#1f1f1f] bg-opacity-40 py-3 px-3 relative flex items-center justify-between border-b border-[#383838]">
         <p>backlogs added today</p>
+        <b>{addedBacklogToday.length}</b>
       </div>
-      <div className="md:-[#1f1f1f] bg-opacity-40 py-3 px-3 relative flex items-center gap-3 border-b border-[#383838]">
-        <b>{activeTodos.length}</b>
+      <div className="md:-[#1f1f1f] bg-opacity-40 py-3 px-3 relative flex items-center justify-between border-b border-[#383838]">
         <p>total active todos</p>
+        <b>{activeTodos.length}</b>
       </div>
-      <div className="md:-[#1f1f1f] bg-opacity-40 py-3 px-3 relative flex items-center gap-3 border-b border-[#383838]">
-        <b>{completedTodos.length}</b>
+      <div className="md:-[#1f1f1f] bg-opacity-40 py-3 px-3 relative flex items-center justify-between border-b border-[#383838]">
         <p>total completed todos</p>
+        <b>{completedTodos.length}</b>
       </div>
-      <div className="md:-[#1f1f1f] bg-opacity-40 py-3 px-3 relative flex items-center gap-3 border-b border-[#383838]">
-        <b>{backlogTodos.length}</b>
+      <div className="md:-[#1f1f1f] bg-opacity-40 py-3 px-3 relative flex items-center justify-between border-b border-[#383838]">
         <p>total backlog todos</p>
+        <b>{backlogTodos.length}</b>
       </div>
     </div>
   );
