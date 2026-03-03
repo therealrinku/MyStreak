@@ -11,18 +11,39 @@ export default function Completed() {
 
   const emptyStateMessage = 'You have not completed any todos yet.';
 
+  const dates = new Set(
+    completedTodos.map((todo) => {
+      const date = new Date(todo.updated_at).toISOString();
+      return date.slice(0, date.indexOf('T'));
+    }),
+  );
+
   return (
     <>
-      {completedTodos.length > 0 ? (
-        completedTodos.map((todo, index) => {
-          return <TodoItem key={todo.id} todo={todo} />;
-        })
-      ) : (
-        <div className="flex items-center gap-2 p-3 text-gray-500">
-          <GoBlocked size={15} />
-          <b>{emptyStateMessage}</b>
-        </div>
-      )}
+      {new Array(...dates).map((date) => {
+        const todos = completedTodos.filter((todo) => {
+          const todoDate = new Date(todo.updated_at).toISOString();
+          return todoDate.slice(0, todoDate.indexOf('T')) === date;
+        });
+        return (
+          <div
+            key={date}
+            className="flex flex-col mb-3 border-b border-[#383838]"
+          >
+            <b>
+              {new Intl.DateTimeFormat('en-GB', {
+                dateStyle: 'full',
+              }).format(new Date(date))}
+            </b>
+
+            <div className="mt-2">
+              {todos.map((todo, index) => {
+                return <TodoItem key={todo.id} todo={todo} noBorder={true} />;
+              })}
+            </div>
+          </div>
+        );
+      })}
     </>
   );
 }

@@ -8,7 +8,7 @@ import {
   GoTrash,
 } from 'react-icons/go';
 
-export default function TodoItem({ todo, count }) {
+export default function TodoItem({ todo, count, noBorder }) {
   const { handleUpdateTodo, handleDeleteTodo } = useTodos();
   const { settings } = useSettings();
 
@@ -18,10 +18,10 @@ export default function TodoItem({ todo, count }) {
     <div
       onMouseEnter={() => setIsFocused(true)}
       onMouseLeave={() => setIsFocused(false)}
-      className="md:-[#1f1f1f] bg-opacity-40 py-3 px-3 relative flex items-center justify-between gap-3 border-b border-[#383838]"
+      className={`md:-[#1f1f1f] bg-opacity-40 py-3 px-3 relative flex items-center justify-between gap-3 ${noBorder ? 'border-b-0' : 'border-b border-[#383838]'}`}
     >
       <div className="flex  items-start gap-3 w-full">
-        <div className="flex items-start gap-2 max-w-[89%] relative">
+        <div className="flex items-start gap-2 max-w-[92%] relative">
           <input
             type="checkbox"
             className="mt-1"
@@ -40,17 +40,6 @@ export default function TodoItem({ todo, count }) {
               </span>
             ) : (
               todo.title
-            )}{' '}
-            {todo.completed === 1 ? (
-              <span className="text-gray-500">
-                completed on{' '}
-                {new Intl.DateTimeFormat('en-GB', {
-                  dateStyle: 'full',
-                  timeStyle: 'short',
-                }).format(new Date(todo.updated_at))}
-              </span>
-            ) : (
-              ''
             )}
           </p>
         </div>
