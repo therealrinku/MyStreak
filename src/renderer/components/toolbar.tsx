@@ -74,14 +74,14 @@ function CategoriesDropdown({ onClose }) {
           onChange={(e) => setTitle(e.target.value)}
         />
         <button
-          className="absolute right-3 disabled:text-gray-500"
+          className="absolute bg-[#454545] right-3 disabled:text-gray-500"
           disabled={!title.trim()}
           onClick={() => {
             handleCreateCategory({ title });
             setTitle('');
           }}
         >
-          <GoPlus />
+          <GoPlus size={18}/>
         </button>
       </div>
     </div>
