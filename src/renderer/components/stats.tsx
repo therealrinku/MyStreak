@@ -35,32 +35,46 @@ export default function Stats() {
   const completedTodos = todos.filter((todo) => todo.completed === 1);
   const backlogTodos = todos.filter((todo) => todo.backlog === 1);
 
+  const stats = [
+    {
+      title: 'todos completed today',
+      value: completedToday.length,
+    },
+    {
+      title: 'todos added today',
+      value: addedToday.length,
+    },
+    {
+      title: 'backlogs added today',
+      value: addedBacklogToday.length,
+    },
+    {
+      title: 'total active todos',
+      value: activeTodos.length,
+    },
+    {
+      title: 'total completed todos',
+      value: completedTodos.length,
+    },
+    {
+      title: 'total backlog todos',
+      value: backlogTodos.length,
+    },
+  ];
+
   return (
     <div>
-      <div className="md:-[#1f1f1f] bg-opacity-40 py-3 px-3 relative flex items-center justify-between border-b border-[#383838]">
-        <p>todos completed today</p>
-        <b>{completedToday.length}</b>
-      </div>
-      <div className="md:-[#1f1f1f] bg-opacity-40 py-3 px-3 relative flex items-center justify-between border-b border-[#383838]">
-        <p>todos added today</p>
-        <b>{addedToday.length}</b>
-      </div>
-      <div className="md:-[#1f1f1f] bg-opacity-40 py-3 px-3 relative flex items-center justify-between border-b border-[#383838]">
-        <p>backlogs added today</p>
-        <b>{addedBacklogToday.length}</b>
-      </div>
-      <div className="md:-[#1f1f1f] bg-opacity-40 py-3 px-3 relative flex items-center justify-between border-b border-[#383838]">
-        <p>total active todos</p>
-        <b>{activeTodos.length}</b>
-      </div>
-      <div className="md:-[#1f1f1f] bg-opacity-40 py-3 px-3 relative flex items-center justify-between border-b border-[#383838]">
-        <p>total completed todos</p>
-        <b>{completedTodos.length}</b>
-      </div>
-      <div className="md:-[#1f1f1f] bg-opacity-40 py-3 px-3 relative flex items-center justify-between border-b border-[#383838]">
-        <p>total backlog todos</p>
-        <b>{backlogTodos.length}</b>
-      </div>
+      {stats.map((stat) => {
+        return (
+          <div
+            key={stat.title}
+            className="md:-[#1f1f1f] bg-opacity-40 py-3 px-3 relative flex items-center justify-between border-b border-[#383838]"
+          >
+            <p>{stat.title}</p>
+            <b>{stat.value}</b>
+          </div>
+        );
+      })}
     </div>
   );
 }
