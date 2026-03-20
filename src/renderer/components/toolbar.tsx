@@ -27,6 +27,17 @@ function CategoriesDropdown({ onClose }) {
 
   const [title, setTitle] = useState('');
 
+  function createCategory(e) {
+    e.preventDefault();
+
+    if (!title.trim()) {
+      return;
+    }
+
+    handleCreateCategory({ title });
+    setTitle('');
+  }
+
   return (
     <div className="fixed top-9 w-60 flex flex-col bg-[#454545]">
       <div className="flex flex-col items-start w-full">
@@ -65,7 +76,7 @@ function CategoriesDropdown({ onClose }) {
           })}
       </div>
 
-      <div className="flex items-center w-full">
+      <form className="flex items-center w-full" onSubmit={createCategory}>
         <input
           type="text"
           className="bg-inherit px-3 py-2 outline-none border-t border-gray-500 w-full"
@@ -76,14 +87,10 @@ function CategoriesDropdown({ onClose }) {
         <button
           className="absolute bg-[#454545] right-3 disabled:text-gray-500"
           disabled={!title.trim()}
-          onClick={() => {
-            handleCreateCategory({ title });
-            setTitle('');
-          }}
         >
-          <GoPlus size={18}/>
+          <GoPlus size={18} />
         </button>
-      </div>
+      </form>
     </div>
   );
 }
