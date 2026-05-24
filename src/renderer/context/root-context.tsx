@@ -55,8 +55,16 @@ export const RootContext = createContext<RootContextType>({
 
 export function RootContextProvider({ children }: PropsWithChildren<{}>) {
   const [todos, setTodos] = useState<ITodo[]>([]);
-  const [categories, setCategories] = useState<ICategory[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [categories, setCategories] = useState<ICategory[]>();
+
+  const [selectedCategory, setSelectedCategory] = useState<ICategory | null>(() => {
+    try {
+      const saved = localStorage.getItem('selectedCategory');
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
+  });
 
   const [settings, setSettings] = useState({});
 
@@ -89,7 +97,10 @@ export function RootContextProvider({ children }: PropsWithChildren<{}>) {
       const parsed = JSON.parse(saved);
 
       const cat = castedArg.find((cat) => cat.id === parsed?.id);
-      if (cat) setSelectedCategory(cat);
+      if (cat) {
+        setSelectedCategory(cat);
+        return;
+      }
       setSelectedCategory(castedArg[0]);
     };
     const errorHandler = (err: unknown) => {
