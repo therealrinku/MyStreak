@@ -25,9 +25,8 @@
 <img src="https://img.shields.io/badge/tailwindcss-000000?style=for-the-badge&logo=tailwindcss&logoColor=blue"/>
 <img src="https://img.shields.io/badge/typescript-000000?style=for-the-badge&logo=typescript&logoColor=blue"/>
 
-## Run the project
-
-⚠️ First make sure node v20 is installed on your system and it's used during the process below
+## Run the project locally
+⚠️ Prerequisites: Node.js v20, yarn and git installed locally
 
 To run this project locally, follow these steps:
 
