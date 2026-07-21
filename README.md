@@ -32,32 +32,31 @@ To run this project locally, follow these steps:
 
 1. Clone the repository. 
 
-   ```bash
-   git clone https://github.com/therealrinku/MyStreak.git
-
+   ```
+   git clone https://github.com/therealrinku/my-streak.git
+   cd my-streak
    ```
 
 2. Install the dependencies.
 
-   ```bash
+   ```
    yarn install
-
    ```
 
 3. Run the project locally.
-   ```bash
+   ```
    yarn start
    ```
 
 ## Build and create a package for your computer
 
 1. Install the dependencies if you haven't already
-```bash
+```
 yarn install 
 ```
 
 2. Create the executeable for your computer (eg: .exe, .deb, .dmg etc)
-```bash
+```
 yarn package
 ```
 
